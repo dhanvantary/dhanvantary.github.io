@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Санскрит: слово дня (стих)</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdfbf7;
+      color: #222;
+      padding: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-top: 24px;
+      display: none; /* скрыто по умолчанию */
+    }
+    .sanskrit {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1e3a8a;
+      text-align: center;
+      margin: 8px 0;
+    }
+    .translit {
+      display: block;
+      color: #475569;
+      margin: 6px 0 12px 0;
+      text-align: center;
+      font-style: italic;
+    }
+    .meaning {
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .context-ru, .context-en {
+      font-style: italic;
+      margin-bottom: 10px;
+      padding-left: 10px;
+      border-left: 3px solid #388e3c;
+      line-height: 1.4;
+    }
+    .context-en {
+      color: #555;
+      border-color: #4f46e5;
+    }
+    .thought-ru, .thought-en {
+      color: #333;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .thought-en {
+      color: #444;
+      font-style: italic;
+    }
+    button {
+      width: 100%;
+      padding: 18px;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    button:hover {
+      background: #254a9e;
+    }
+    .debug {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Приветствие Божеств</h1>
+  <p class="subtitle">Куплет: тренажёр слов деванагари</p>
+  <button id="showBtn">Следующее слово</button>
+
+  <div class="card" id="wordCard">
+    <div class="sanskrit" id="sanskritWord"></div>
+    <span class="translit" id="translitWord"></span>
+    <div class="meaning" id="meaningWord"></div>
+
+    <div class="context-ru" id="contextRu"></div>
+    <div class="context-en" id="contextEn"></div>
+
+    <div class="thought-ru" id="thoughtRu"></div>
+    <div class="thought-en" id="thoughtEn"></div>
+  </div>
+
+  <div class="debug" id="debugInfo"></div>
+
+  <script>
+    const words = [
+      {
+        sanskrit: 'अंगानि',
+        translit: 'ангани',
+        meaning: 'части тела, члены',
+        contextRu: 'В духовной поэтике тело — это не просто анатомия, а проявление божественной формы во всей её полноте.',
+        contextEn: 'In spiritual poetry, the body is not just anatomy; it is the manifestation of the divine form in its fullness.',
+        thoughtRu: 'Сегодня обрати внимание на целостность: не только на отдельные дела, но и на то, как они складываются в твой день.',
+        thoughtEn: 'Today, notice the wholeness: not just the separate tasks, but how they come together to form your day.'
+      },
+      {
+        sanskrit: 'यस्य',
+        translit: 'йасйа',
+        meaning: 'чьи, Его',
+        contextRu: 'Местоимение, которое связывает действие с высшей Личностью: “части, которые принадлежат Ему”.',
+        contextEn: 'A pronoun that connects the action to the Supreme Person: “the parts that belong to Him”.',
+        thoughtRu: 'Когда ты делаешь что-то хорошее, попробуй не присваивать это себе полностью. Пусть в этом будет мысль: “Это часть чего-то большего”.',
+        thoughtEn: 'When you do something good, try not to claim it entirely as your own. Let there be the thought: “This is part of something greater”.'
+      },
+      {
+        sanskrit: 'सकल',
+        translit: 'сака́ла',
+        meaning: 'все, целиком, полностью',
+        contextRu: 'Подчёркивает полноту: не часть, а всё без остатка.',
+        contextEn: 'It emphasizes completeness: not a part, but everything, without exception.',
+        thoughtRu: 'Иногда стоит не “кое‑что сделать”, а сделать что-то полностью, не оставляя на потом.',
+        thoughtEn: 'Sometimes it’s worth not doing “a little bit”, but finishing one thing completely, without leaving it for later.'
+      },
+      {
+        sanskrit: 'इन्द्रिय',
+        translit: 'индрийа',
+        meaning: 'чувства, органы чувств',
+        contextRu: 'В санскритской философии индрии — это каналы восприятия: зрение, слух, осязание и т.д.',
+        contextEn: 'In Sanskrit philosophy, indriyas are the channels of perception: sight, hearing, touch, etc.',
+        thoughtRu: 'Замедлись сегодня на минуту и просто почувствуй: что ты слышишь, что видишь, что ощущаешь кожей.',
+        thoughtEn: 'Slow down for a minute today and just feel: what do you hear, what do you see, what do you feel with your skin?'
+      },
+      {
+        sanskrit: 'वृत्तिमंति',
+        translit: 'вриттима́нти',
+        meaning: '(они) действуют, обладают функцией восприятия',
+        contextRu: 'Здесь говорится о том, что чувства не пассивны — они активно проявляют свою природу (вритти).',
+        contextEn: 'This speaks of how the senses are not passive—they actively manifest their nature (vritti).',
+        thoughtRu: 'Пусть твои действия сегодня будут не просто “делами”, а проявлением твоего внутреннего состояния.',
+        thoughtEn: 'Let your actions today be not just “tasks”, but a reflection of your inner state.'
+      },
+      {
+        sanskrit: 'पश्यन्ति',
+        translit: 'пашйа́нти',
+        meaning: 'они видят, созерцают',
+        contextRu: 'Более глубокое “видение”, чем просто зрение: это созерцание, способность замечать суть.',
+        contextEn: 'A deeper “seeing” than just vision: it’s contemplation, the ability to notice the essence.',
+        thoughtRu: 'Попробуй сегодня увидеть что-то заново: знакомый пейзаж, лицо близкого человека.',
+        thoughtEn: 'Try to see something anew today: a familiar landscape, the face of a loved one.'
+      },
+      {
+        sanskrit: 'पान्ति',
+        translit: 'па́нти',
+        meaning: 'охраняют, защищают, поддерживают',
+        contextRu: 'Чувства и части тела не только воспринимают, но и сохраняют связь с высшей формой.',
+        contextEn: 'The senses and body parts not only perceive but also preserve the connection with the supreme form.',
+        thoughtRu: 'Постарайся замечать не только “что происходит”, но и “как я это воспринимаю и сохраняю в себе”.',
+        thoughtEn: 'Try to notice not only “what is happening”, but also “how I perceive it and keep it within myself”.'
+      },
+      {
+        sanskrit: 'कलयन्ति',
+        translit: 'калая́нти',
+        meaning: 'соединяют, сочетают, упорядочивают',
+        contextRu: 'Чувства и действия складываются в гармоничный порядок, ведомый высшей силой.',
+        contextEn: 'The senses and actions form a harmonious order, guided by a higher power.',
+        thoughtRu: 'Попробуй собрать свой день как узор: одно дело, второе, третье.',
+        thoughtEn: 'Try to assemble your day like a pattern: one task, then another, then the third.'
+      },
+      {
+        sanskrit: 'चिरम्',
+        translit: 'чи́рам',
+        meaning: 'долго, вечно, продолжительное время',
+        contextRu: 'Указывает на вневременной характер: действие не ограничено минутами и часами.',
+        contextEn: 'It points to a timeless nature: the action is not limited by minutes and hours.',
+        thoughtRu: 'Не торопись оценивать результат сразу. Пусть некоторые вещи зреют долго, как дерево.',
+        thoughtEn: 'Don’t rush to judge the result immediately. Let some things ripen slowly, like a tree.'
+      },
+      {
+        sanskrit: 'जगन्ति',
+        translit: 'джага́нти',
+        meaning: 'движутся, существуют, пребывают',
+        contextRu: 'Всё мироздание пребывает в движении, следуя высшей воле.',
+        contextEn: 'All creation exists in motion, following the supreme will.',
+        thoughtRu: 'Если день кажется суетливым, вспомни это слово: движение не обязательно должно быть быстрым.',
+        thoughtEn: 'If the day feels hectic, remember this word: movement doesn’t have to be fast.'
+      },
+      {
+        sanskrit: 'आनंद',
+        translit: 'а́нанда',
+        meaning: 'блаженство, духовное счастье',
+        contextRu: 'Ананда — это внутреннее счастье, не зависящее от внешних обстоятельств.',
+        contextEn: 'Ananda is inner happiness, independent of external circumstances.',
+        thoughtRu: 'Найди сегодня хотя бы одну маленькую вещь, которая приносит тебе тихое удовольствие.',
+        thoughtEn: 'Find at least one small thing today that brings you quiet pleasure.'
+      },
+      {
+        sanskrit: 'चिन्मय',
+        translit: 'чинма́йа',
+        meaning: 'состоящий из сознания, исполненный знания',
+        contextRu: 'Чид-рупа — это форма чистого сознания, в которой нет материального затемнения.',
+        contextEn: 'Chid-rupa is a form of pure consciousness, free from material obscuration.',
+        thoughtRu: 'Подумай, что в твоём дне было “по-настоящему осознанным”, а что прошло на автомате.',
+        thoughtEn: 'Think about what in your day was truly “mindful”, and what passed by on autopilot.'
+      },
+      {
+        sanskrit: 'सत्',
+        translit: 'сат',
+        meaning: 'бытие, истина, вечность',
+        contextRu: 'Сат — это аспект вечного бытия, того, что реально и неизменно.',
+        contextEn: 'Sat is the aspect of eternal existence, that which is real and unchanging.',
+        thoughtRu: 'Сделай сегодня хотя бы одно дело “на совесть”, как будто оно останется навсегда.',
+        thoughtEn: 'Do at least one thing today “with care”, as if it will remain forever.'
+      },
+      {
+        sanskrit: 'उज्ज्वल',
+        translit: 'уджджва́ла',
+        meaning: 'сияющий, яркий, лучезарный',
+        contextRu: 'Уджжвала-виграха — это ослепительно сияющая форма, полная внутренней энергии.',
+        contextEn: 'Ujjvala-vigraha is a brilliantly shining form, full of inner energy.',
+        thoughtRu: 'Представь, что каждое твоё действие может быть “источником света” для кого-то рядом.',
+        thoughtEn: 'Imagine that every action you take can be a “source of light” for someone nearby.'
+      },
+      {
+        sanskrit: 'विग्रहस्य',
+        translit: 'виграха́сйа',
+        meaning: 'формы, облика (род. п.)',
+        contextRu: 'Виграха — это проявленная форма Божества, в которой можно видеть Его присутствие.',
+        contextEn: 'Vigraha is the manifested form of the Deity, where His presence can be seen.',
+        thoughtRu: 'Обрати внимание на детали: иногда именно в них прячется самое важное.',
+        thoughtEn: 'Pay attention to the details: sometimes the most important thing hides in them.'
+      },
+      {
+        sanskrit: 'गोविन्दम्',
+        translit: 'гови́ндам',
+        meaning: 'Говинда (имя Кришны)',
+        contextRu: 'Говинда — Тот, кто доставляет радость коровам и земле, а также всем живым существам.',
+        contextEn: 'Govinda is the one who brings joy to cows and the earth, and to all living beings.',
+        thoughtRu: 'Сделай кому-нибудь сегодня маленький добрый жест — пусть это будет твоё “говинда” дня.',
+        thoughtEn: 'Give someone a small kind gesture today—let it be your “govinda” of the day.'
+      },
+      {
+        sanskrit: 'आदि',
+        translit: 'а́ди',
+        meaning: 'изначальный, первый',
+        contextRu: 'Ади-пуруша — изначальная Личность, источник всего творения.',
+        contextEn: 'Adi-purusha is the original Person, the source of all creation.',
+        thoughtRu: 'Вспомни, что у каждого дела есть своё начало: иногда самое ценное — это просто начать.',
+        thoughtEn: 'Remember that every task has its beginning: sometimes the most valuable thing is simply to start.'
+      },
+      {
+        sanskrit: 'पुरुषं',
+        translit: 'пуру́шам',
+        meaning: 'Личность (вин. п.)',
+        contextRu: 'Пуруша — это сознающая личность, источник и опора всего сущего.',
+        contextEn: 'Purusha is the conscious Person, the source and support of all that exists.',
+        thoughtRu: 'Подумай, кто или что для тебя является “опорой” в трудные моменты.',
+        thoughtEn: 'Think about who or what is your “support” in difficult moments.'
+      },
+      {
+        sanskrit: 'तमहं',
+        translit: 'тама́хам',
+        meaning: 'Его я (поклоняюсь)',
+        contextRu: 'Тамахам — “Его я”, выражение личного отношения и преданности.',
+        contextEn: 'Tama-ham means “Him I”, an expression of personal relationship and devotion.',
+        thoughtRu: 'Позволь себе сегодня сказать “я выбираю это” — пусть даже в чём-то маленьком.',
+        thoughtEn: 'Allow yourself to say “I choose this” today—even in something small.'
+      },
+     {
+        sanskrit: 'भजामि',
+        translit: 'бхаджа́ми',
+        meaning: 'поклоняюсь, служу',
+        contextRu: 'Бхаджана — это служение и поклонение, идущее из сердца.',
+        contextEn: 'Bhajana is service and worship that comes from the heart.',
+        thoughtRu: 'Закончи день одной спокойной мыслью: за что ты сегодня благодарен.',
+        thoughtEn: 'End the day with one quiet thought: what are you grateful for today.'
+      }
+    ];
+    let currentIndex = -1;
+
+    function showNextWord() {
+      currentIndex = (currentIndex + 1) % words.length;
+      const w = words[currentIndex];
+
+      document.getElementById('sanskritWord').textContent = w.sanskrit;
+      document.getElementById('translitWord').textContent = w.translit;
+      document.getElementById('meaningWord').textContent = w.meaning;
+      document.getElementById('contextRu').textContent = w.contextRu;
+      document.getElementById('contextEn').textContent = w.contextEn;
+      document.getElementById('thoughtRu').textContent = w.thoughtRu;
+      document.getElementById('thoughtEn').textContent = w.thoughtEn;
+
+      document.getElementById('wordCard').style.display = 'block';
+      document.getElementById('debugInfo').textContent =
+        'Слово ' + (currentIndex + 1) + ' из ' + words.length;
+    }
+
+    document.getElementById('showBtn').addEventListener('click', showNextWord);
+  </script>
+</body>
+</html>
