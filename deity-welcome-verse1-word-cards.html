@@ -94,6 +94,17 @@
     button:hover {
       background: #254a9e;
     }
+    #audioBtn {
+      background: #388e3c;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    #audioBtn:hover {
+      background: #2e7d32;
+    }
   </style>
 </head>
 <body>
@@ -106,6 +117,9 @@
     <div class="line">Кандарпа-коти-каманийа-вишеша-шобхам</div>
     <div class="line">Говиндам ади-пурушам там ахам бхаджами</div>
   </div>
+
+  <audio id="verseAudio" src="YAmuna_Devi_Dasi_SHrila_Prabkhupada_-_Govindam_adi_purusham_privetstvie_bozhest.mp3"></audio>
+  <button id="audioBtn">▶️ Слушать стих</button>
 
   <button id="showBtn">Слово дня</button>
 
@@ -275,6 +289,23 @@
     const meaningEl = document.getElementById('meaningWord');
     const contextEl = document.getElementById('contextWord');
     const thoughtEl = document.getElementById('thoughtWord');
+
+    const audio = document.getElementById('verseAudio');
+    const audioBtn = document.getElementById('audioBtn');
+
+    audioBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        audioBtn.textContent = '⏸️ Пауза';
+      } else {
+        audio.pause();
+        audioBtn.textContent = '▶️ Слушать стих';
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      audioBtn.textContent = '▶️ Слушать стих';
+    });
 
     let currentIndex = 0;
 
