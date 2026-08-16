@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+      <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -22,7 +22,21 @@
       text-align: center;
       color: #666;
       font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .full-verse {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
       margin-bottom: 24px;
+      text-align: center;
+    }
+    .full-verse .line {
+      font-style: italic;
+      color: #1e3a8a;
+      font-size: 16px;
+      line-height: 1.6;
     }
     .card {
       background: white;
@@ -85,6 +99,14 @@
 <body>
   <h1>Приветствие Божеств</h1>
   <p class="subtitle">Куплет 1: карточки слов</p>
+
+  <div class="full-verse">
+    <div class="line">Венум кванантам аравинда-далайатакшам</div>
+    <div class="line">Бархаватамсам аситамбуда-сундарангам</div>
+    <div class="line">Кандарпа-коти-каманийа-вишеша-шобхам</div>
+    <div class="line">Говиндам ади-пурушам там ахам бхаджами</div>
+  </div>
+
   <button id="showBtn">Слово дня</button>
 
   <div class="card" id="wordCard">
@@ -220,7 +242,7 @@
         sanskrit: 'पुरुषम्',
         translit: 'Puruṣam',
         meaning: 'личность, Господь',
-        context: 'Пурusha — не просто человек, а высшая Личность, источник всего.',
+        context: 'Пуруша — не просто человек, а высшая Личность, источник всего.',
         thought: 'Сегодня пусть твоё внимание будет к людям: услышать, понять, поддержать.'
       },
       {
@@ -234,7 +256,7 @@
         sanskrit: 'अहम्',
         translit: 'Aham',
         meaning: 'я (вечное “я”, не эго)',
-        context: '«Aham ātmā…» — “Я — Атма, пребывающий в сердце каждого” (БГ 10.20).',
+        context: '«Aham ātmā…» — “Я — Атма, пребывающий в сердце каждого” (БГ 10.20).',
         thought: 'Когда говоришь “я”, вспомни не про эго, а про вечное внутри.'
       },
       {
