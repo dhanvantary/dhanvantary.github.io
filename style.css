@@ -1,0 +1,118 @@
+:root {
+  --primary: #8B4513;       /* тёмно‑коричневый */
+  --accent: #DAA520;        /* золотой */
+  --bg: #FFF8E1;            /* кремовый */
+  --text: #333;
+  --blue-accent: #4A70B2;   /* спокойный синий — можно использовать на внутренних страницах */
+  --white: #ffffff;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+header {
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+header p {
+  margin-top: 0.5rem;
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+main {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.description {
+  text-align: center;
+  margin-bottom: 3rem;
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+.bhajan-card {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 5px solid var(--accent);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bhajan-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.bhajan-card h3 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
+.bhajan-card p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.btn:hover {
+  background-color: #5D290B;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+/* Класс для контролируемого использования синего на внутренних страницах */
+.blue-box {
+  background-color: var(--blue-accent);
+  color: var(--white);
+  padding: 1rem;
+  border-radius: 6px;
+}
