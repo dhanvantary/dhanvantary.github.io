@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Тренажёр бхаджанов — Dhanvantary Sanskrit</title>
+  <style>
+    :root {
+      --primary: #8B4513; /* Тёмно-коричневый (цвет сандаловой пасты) */
+      --accent: #DAA520;  /* Золотистый */
+      --bg: #FFF8E1;      /* Кремовый фон */
+      --text: #333;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--primary);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      opacity: 0.9;
+      font-size: 1.1rem;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .description {
+      text-align: center;
+      margin-bottom: 3rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 600px) {
+      .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      }
+    }
+
+    .bhajan-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border-left: 5px solid var(--accent);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .bhajan-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .bhajan-card h3 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+
+    .bhajan-card p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--primary);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    .btn:hover {
+      background-color: #5D290B;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #777;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dhanvantary Sanskrit</h1>
+    <p>Тренажёр для изучения бхаджанов и санскрита</p>
+  </header>
+
+  <main>
+    <section class="description">
+      <h2>Добро пожаловать в тренажёр</h2>
+      <p>Этот сайт создан, чтобы помочь вам уверенно и правильно выучить священные тексты. Здесь вы найдёте разборы, транскрипцию и карточки для запоминания.</p>
+      <p>Мы начинаем с одного из самых важных и красивых бхаджанов.</p>
+    </section>
+
+    <section class="card-grid">
+      <!-- Карточка первого бхаджана -->
+      <article class="bhajan-card">
+        <h3>Приветствие Божеств</h3>
+        <p><strong>Текст:</strong> Брахма Самхита, стихи 30 и 32</p>
+        <p>Первый шаг в освоении бхаджана: изучите произношение и значение слов.</p>
+        <a href="welcome-verse1.html" class="btn">Перейти к тренажёру</a>
+      </article>
+
+      <!-- Заглушка для следующего бхаджана (можно удалить, если пока не нужно) -->
+      <article class="bhajan-card" style="opacity: 0.6; filter: grayscale(100%);">
+        <h3>Следующий бхаджан</h3>
+        <p>Скоро будет доступен для изучения.</p>
+        <a href="#" class="btn" style="background-color: #ccc; color: #333; cursor: not-allowed;">В разработке</a>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Dhanvantary Sanskrit. Проект для личного изучения.</p>
+  </footer>
+</body>
+</html>
