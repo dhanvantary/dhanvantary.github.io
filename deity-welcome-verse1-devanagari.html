@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Учим деванагари: карточки</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdfbf7; /* тёплый светлый фон */
+      color: #222;
+      padding: 16px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+    }
+    .letter-large {
+      font-size: 64px;
+      line-height: 1;
+      font-weight: 600;
+      color: #1e3a8a;
+      margin: 10px 0 12px 0;
+    }
+    .translit {
+      display: block;
+      font-size: 28px;
+      color: #334155;
+      margin-bottom: 16px;
+      font-weight: normal;
+    }
+    .example-word {
+      font-weight: bold;
+      color: #0563bb;
+      margin-bottom: 4px;
+    }
+    .meaning-small {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+    .hint {
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    button {
+      width: 100%;
+      padding: 16px;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    button:hover {
+      background: #254a9e;
+    }
+    .lotus-icon {
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 0.5rem;
+    }
+    .divider {
+      display: block;
+      width: 100%;
+      max-width: 350px;
+      margin: 1.5rem auto;
+    }
+  </style>
+</head>
+<body>
+  <img src="lotus.svg" alt="" class="lotus-icon">
+  <h1>Учим деванагари</h1>
+  <p class="subtitle">Карточки со слогами из твоих слов</p>
+
+  <img src="divider.svg" alt="" class="divider">
+
+  <button id="showBtn">Следующий слог</button>
+
+  <div class="card" id="card">
+    <div class="letter-large" id="letterDeva"></div>
+    <span class="translit" id="letterTranslit"></span>
+    <div class="example-word" id="exampleWord"></div>
+    <div class="meaning-small" id="meaningSmall"></div>
+    <div class="hint" id="hintText"></div>
+  </div>
+
+  <script>
+    const syllables = [
+      {
+        deva: 'व',
+        translit: 'va',
+        example: 'वेणुम् (Vēṇum)',
+        meaning: 'флейта',
+        hint: 'Звук ближе к «ва», но произносится мягко, почти как «уа». В санскрите «в» часто звучит округлённо.'
+      },
+      {
+        deva: 'े',
+        translit: 'ē',
+        example: 'वे (Vē)',
+        meaning: 'долгий гласный «э»',
+        hint: 'Это не отдельная буква, а знак гласного. Он ставится над согласной и даёт долгий звук «э». Читай как «вэ» (долгое).'
+      },
+      {
+        deva: 'ण',
+        translit: 'ṇ',
+        example: 'वेणुम् (Vēṇum)',
+        meaning: 'носовой звук, как «н» с упором языка к нёбу',
+        hint: 'Это «церебральное н» (язык чуть загнут назад). Не совсем как обычное «н», а более «глубокое».'
+      },
+      {
+        deva: 'ु',
+        translit: 'u',
+        example: 'वेणु (Vēṇu)',
+        meaning: 'короткий гласный «у»',
+        hint: 'Знак ставится справа от согласной. Читай коротко: «ву» (не «уу»).'
+      },
+      {
+        deva: 'म्',
+        translit: 'm',
+        example: 'वेणुम् (Vēṇum)',
+        meaning: 'согласный «м» с точкой (анунасика)',
+        hint: 'Точка сверху (ँ) показывает носовой призвук. В конце слова часто читается как мягкое «м».'
+      },
+      {
+        deva: 'क्',
+        translit: 'k',
+        example: 'क्वणन्तम् (Kvaṇantam)',
+        meaning: 'твёрдый «к» с небольшим придыханием',
+        hint: 'Маленькая точка под буквой (вирама) означает, что гласный «а» не читается. Читай просто «к», а дальше идёт следующий гласный.'
+      },
+      {
+        deva: 'व',
+        translit: 'va',
+        example: 'क्व (kva)',
+        meaning: 'сочетание «к + ва»',
+        hint: 'Когда «к» и «ва» стоят вместе, они сливаются в один слог «ква». Это частый приём в санскрите.'
+      },
+      {
+        deva: 'ण',
+        translit: 'ṇ',
+        example: 'क्वण (kvaṇ)',
+        meaning: 'снова церебральное «н»',
+        hint: 'Опять тот самый «глубокий» звук «н». В слове «кванантам» он делает слог более «тяжёлым» и ритмичным.'
+      },
+      {
+        deva: 'त',
+        translit: 'ta',
+        example: 'तम् (tam)',
+        meaning: '«та» как в слове «там»',
+        hint: 'Обычный зубной «т», без сильного придыхания. Читай чётко, но мягко.'
+      },
+      {
+        deva: 'अ',
+        translit: 'a',
+        example: 'अरविन्द (Aravinda)',
+        meaning: 'нейтральный гласный «а»',
+        hint: 'В деванагари, если у согласной нет знака гласного, по умолчанию читается «а». Поэтому «र» читается как «ра», а не просто «р».'
+      },
+      {
+        deva: 'र',
+        translit: 'ra',
+        example: 'रव (rava)',
+        meaning: '«ра» с лёгким перекатыванием',
+        hint: 'Индийское «р» часто звучит как очень быстрое «ра». Не тяни его, а сделай коротким и звонким.'
+      },
+      {
+        deva: 'वि',
+        translit: 'vi',
+        example: 'विन्द (vinda)',
+        meaning: 'слог «ви»',
+        hint: 'Здесь «व» + знак «ि» дают «ви». Знак «ि» ставится слева от согласной и читается как короткое «и».'
+      },
+      {
+        deva: 'न्द',
+        translit: 'nda',
+        example: 'विन्द (vinda)',
+        meaning: 'слияние «н + д»',
+        hint: 'В санскрите согласные часто сливаются. Здесь «न» и «द» вместе читаются как «нда» (или мягко «нд»).'
+      },
+      {
+        deva: 'ब',
+        translit: 'ba',
+        example: 'बर्ह (Barha)',
+        meaning: 'мягкий «ба»',
+        hint: 'Не такой взрывной, как в русском, а более плавный. Читай как спокойное «ба».'
+      },
+      {
+        deva: 'र्ह',
+        translit: 'rha',
+        example: 'बर्ह (Barha)',
+        meaning: 'редкое сочетание «р + ха»',
+        hint: 'Точки и знаки меняют чтение. Здесь «र्» (р с точкой) и «ह» дают мягкое «рха». Это характерный звук для многих имён и эпитетов.'
+      }
+    ];
+
+    const btn = document.getElementById('showBtn');
+    const card = document.getElementById('card');
+    const letterDeva = document.getElementById('letterDeva');
+    const letterTranslit = document.getElementById('letterTranslit');
+    const exampleWord = document.getElementById('exampleWord');
+    const meaningSmall = document.getElementById('meaningSmall');
+    const hintText = document.getElementById('hintText');
+
+    let currentIndex = 0;
+
+    btn.addEventListener('click', () => {
+      if (currentIndex >= syllables.length) {
+        currentIndex = 0;
+        alert('Прошли все карточки! Можно начать заново.');
+      }
+      const s = syllables[currentIndex];
+
+      letterDeva.textContent = s.deva;
+      letterTranslit.textContent = s.translit;
+      exampleWord.textContent = s.example;
+      meaningSmall.textContent = s.meaning;
+      hintText.textContent = s.hint;
+
+      card.style.display = 'block';
+      btn.textContent = 'Ещё один слог';
+      currentIndex++;
+    });
+  </script>
+</body>
+</html>
