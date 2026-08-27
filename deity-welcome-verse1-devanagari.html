@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: #fdfbf7; /* тёплый светлый фон */
+      background: #fdfbf7;
       color: #222;
       padding: 16px;
       max-width: 500px;
@@ -23,6 +23,20 @@
       color: #666;
       font-size: 14px;
       margin-bottom: 24px;
+    }
+    .full-verse {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .full-verse .line {
+      font-style: italic;
+      color: #1e3a8a;
+      font-size: 16px;
+      line-height: 1.6;
     }
     .card {
       background: white;
@@ -95,12 +109,27 @@
       max-width: 350px;
       margin: 1.5rem auto;
     }
+    .debug {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+    }
   </style>
 </head>
 <body>
   <img src="lotus.svg" alt="" class="lotus-icon">
   <h1>Учим деванагари</h1>
-  <p class="subtitle">Карточки со слогами из твоих слов</p>
+  <p class="subtitle">Куплет 1: слоги по порядку всего стиха</p>
+
+  <div class="full-verse">
+    <div class="line">венум кванантам аравинда-далайатакшам</div>
+    <div class="line">бархаватамсам аситамбуда-сундарангам</div>
+    <div class="line">кандарпа-коти-каманийа-вишеша-шобхам</div>
+    <div class="line">Говиндам ади-пурушам там ахам бхаджами</div>
+  </div>
 
   <img src="divider.svg" alt="" class="divider">
 
@@ -113,6 +142,8 @@
     <div class="meaning-small" id="meaningSmall"></div>
     <div class="hint" id="hintText"></div>
   </div>
+
+  <div class="debug" id="debugInfo"></div>
 
   <script>
     const syllables = [
@@ -208,6 +239,41 @@
         hint: 'В санскрите согласные часто сливаются. Здесь «न» и «द» вместе читаются как «нда» (или мягко «нд»).'
       },
       {
+        deva: 'द',
+        translit: 'da',
+        example: 'दल (dala)',
+        meaning: '«да» — первый слог слова «лепесток»',
+        hint: 'Обычный зубной звонкий «д» с коротким «а».'
+      },
+      {
+        deva: 'ल',
+        translit: 'la',
+        example: 'दल (dala)',
+        meaning: '«ла» — второй слог',
+        hint: 'Мягкий «л», как и в других санскритских словах.'
+      },
+      {
+        deva: 'य',
+        translit: 'ya',
+        example: 'यतक्षम् (yatakṣam)',
+        meaning: '«йа»',
+        hint: 'Обычное мягкое «йа», с которого начинается слово «чьи глаза».'
+      },
+      {
+        deva: 'त',
+        translit: 'ta',
+        example: 'यतक्षम् (yatakṣam)',
+        meaning: '«та»',
+        hint: 'Простой зубной «т» со стандартным «а».'
+      },
+      {
+        deva: 'क्षं',
+        translit: 'kṣaṁ',
+        example: 'यतक्षम् (yatakṣam)',
+        meaning: '«кшам» — конъюнкт с носовым звуком',
+        hint: '«क्ष» — сложное сочетание «к + ш», а точка сверху (анусвара) добавляет лёгкий носовой призвук. Вместе получается «кшам».'
+      },
+      {
         deva: 'ब',
         translit: 'ba',
         example: 'बर्ह (Barha)',
@@ -220,6 +286,314 @@
         example: 'बर्ह (Barha)',
         meaning: 'редкое сочетание «р + ха»',
         hint: 'Точки и знаки меняют чтение. Здесь «र्» (р с точкой) и «ह» дают мягкое «рха». Это характерный звук для многих имён и эпитетов.'
+      },
+      {
+        deva: 'व',
+        translit: 'va',
+        example: 'वतंसम् (vataṁsam)',
+        meaning: '«ва»',
+        hint: 'Мягкое округлое «ва», как и в слове वेणुम्.'
+      },
+      {
+        deva: 'तं',
+        translit: 'taṁ',
+        example: 'वतंसम् (vataṁsam)',
+        meaning: '«там» с носовым звуком',
+        hint: 'Анусвара (точка сверху) даёт лёгкий носовой призвук после «т».'
+      },
+      {
+        deva: 'सम्',
+        translit: 'sam',
+        example: 'वतंसम् (vataṁsam)',
+        meaning: '«сам»',
+        hint: '«स» + «म्» (вирама убирает «а»). Читай слитно: «сам».'
+      },
+      {
+        deva: 'सि',
+        translit: 'si',
+        example: 'असिताम्बुद (asitāmbuda)',
+        meaning: '«си»',
+        hint: 'Зубной «с» с коротким «и».'
+      },
+      {
+        deva: 'ता',
+        translit: 'tā',
+        example: 'असिताम्बुद (asitāmbuda)',
+        meaning: 'долгое «та»',
+        hint: 'Знак «ा» делает гласный долгим: «та-а».'
+      },
+      {
+        deva: 'म्बु',
+        translit: 'mbu',
+        example: 'असिताम्बुद (asitāmbuda)',
+        meaning: 'сочетание «м + бу»',
+        hint: 'Два согласных подряд: «म्» (голая «м») и «बु» («бу»). Читай слитно: «мбу».'
+      },
+      {
+        deva: 'द',
+        translit: 'da',
+        example: 'असिताम्बुद (asitāmbuda)',
+        meaning: '«да»',
+        hint: 'Обычный звонкий «д» — тот же звук, что и в слове दल.'
+      },
+      {
+        deva: 'सु',
+        translit: 'su',
+        example: 'सुन्दर (sundara)',
+        meaning: '«су»',
+        hint: 'Зубной «с» с коротким «у».'
+      },
+      {
+        deva: 'न्द',
+        translit: 'nda',
+        example: 'सुन्दर (sundara)',
+        meaning: 'сочетание «н + да»',
+        hint: 'Такое же слияние согласных, как и в слове विन्द.'
+      },
+      {
+        deva: 'र',
+        translit: 'ra',
+        example: 'सुन्दर (sundara)',
+        meaning: '«ра»',
+        hint: 'Короткое, звонкое «ра» — как и в слове अरविन्द.'
+      },
+      {
+        deva: 'अ',
+        translit: 'a',
+        example: 'अङ्गम् (aṅgam)',
+        meaning: 'короткое «а»',
+        hint: 'Обычное короткое «а» в начале слова.'
+      },
+      {
+        deva: 'ङ्ग',
+        translit: 'ṅga',
+        example: 'अङ्गम् (aṅgam)',
+        meaning: 'носовой + «га»',
+        hint: '«ङ्» — гортанный носовой звук (похож на «нг» в конце английского «sing») плюс «ग» («га»). Вместе — «нга».'
+      },
+      {
+        deva: 'म्',
+        translit: 'm',
+        example: 'अङ्गम् (aṅgam)',
+        meaning: '«м» с вирамой',
+        hint: 'Точка снизу убирает «а». Читай просто «м».'
+      },
+      {
+        deva: 'क',
+        translit: 'ka',
+        example: 'कन्दर्प (kandarpa)',
+        meaning: '«ка»',
+        hint: 'Твёрдый «к» со стандартным «а».'
+      },
+      {
+        deva: 'न्द',
+        translit: 'nda',
+        example: 'कन्दर्प (kandarpa)',
+        meaning: 'сочетание «н + да»',
+        hint: 'Тот же конъюнкт, что и в सुन्दर.'
+      },
+      {
+        deva: 'र्प',
+        translit: 'rpa',
+        example: 'कन्दर्प (kandarpa)',
+        meaning: 'сочетание «р + па»',
+        hint: '«र्» (голая «р») + «प» («па»). Читай слитно: «рпа».'
+      },
+      {
+        deva: 'को',
+        translit: 'ko',
+        example: 'कोटि (koṭi)',
+        meaning: '«ко»',
+        hint: 'Твёрдый «к» с долгим «о».'
+      },
+      {
+        deva: 'टि',
+        translit: 'ṭi',
+        example: 'कोटि (koṭi)',
+        meaning: 'церебральное «ти»',
+        hint: '«ट» — церебральный (ретрофлексный) «т», язык загнут назад. Отличается от обычного «त». Читай «ти», но чуть тверже.'
+      },
+      {
+        deva: 'का',
+        translit: 'kā',
+        example: 'कामनीय (kāmanīya)',
+        meaning: 'долгое «ка»',
+        hint: 'Знак «ा» делает «а» долгим: «ка-а».'
+      },
+      {
+        deva: 'म',
+        translit: 'ma',
+        example: 'कामनीय (kāmanīya)',
+        meaning: '«ма»',
+        hint: 'Обычный «м» со стандартным «а».'
+      },
+      {
+        deva: 'नी',
+        translit: 'nī',
+        example: 'कामनीय (kāmanīya)',
+        meaning: 'долгое «ни»',
+        hint: 'Знак «ी» делает «и» долгим: «ни-и».'
+      },
+      {
+        deva: 'य',
+        translit: 'ya',
+        example: 'कामनीय (kāmanīya)',
+        meaning: '«йа»',
+        hint: 'Тот же мягкий «йа», что и в यतक्षम्.'
+      },
+      {
+        deva: 'वि',
+        translit: 'vi',
+        example: 'विशेष (viśeṣa)',
+        meaning: '«ви»',
+        hint: 'Тот же слог, что и в विन्द.'
+      },
+      {
+        deva: 'शे',
+        translit: 'śe',
+        example: 'विशेष (viśeṣa)',
+        meaning: '«ше»',
+        hint: 'Мягкий нёбный «ш» с долгим «е»: «ше».'
+      },
+      {
+        deva: 'ष',
+        translit: 'ṣa',
+        example: 'विशेष (viśeṣa)',
+        meaning: 'церебральное «ша»',
+        hint: '«ष» — ещё один вид «ш», церебральный (язык загнут назад), отличается от श. Звучит чуть тверже.'
+      },
+      {
+        deva: 'शो',
+        translit: 'śo',
+        example: 'शोभम् (śobham)',
+        meaning: '«шо»',
+        hint: 'Мягкий «ш» с долгим «о».'
+      },
+      {
+        deva: 'भ',
+        translit: 'bha',
+        example: 'शोभम् (śobham)',
+        meaning: 'придыхательное «бха»',
+        hint: '«भ» — «б» с лёгким выдохом. Отличается от обычного «ब».'
+      },
+      {
+        deva: 'म्',
+        translit: 'm',
+        example: 'शोभम् (śobham)',
+        meaning: '«м» с вирамой',
+        hint: 'Как и в अङ्गम् — просто «м» в конце слова.'
+      },
+      {
+        deva: 'गो',
+        translit: 'go',
+        example: 'गोविन्दम् (govindam)',
+        meaning: '«го»',
+        hint: 'Звонкий «г» с долгим «о».'
+      },
+      {
+        deva: 'वि',
+        translit: 'vi',
+        example: 'गोविन्दम् (govindam)',
+        meaning: '«ви»',
+        hint: 'Тот же слог, что и в विन्द и विशेष.'
+      },
+      {
+        deva: 'न्द',
+        translit: 'nda',
+        example: 'गोविन्दम् (govindam)',
+        meaning: 'сочетание «н + да»',
+        hint: 'Тот же конъюнкт, что и в सुन्दर, कन्दर्प.'
+      },
+      {
+        deva: 'म्',
+        translit: 'm',
+        example: 'गोविन्दम् (govindam)',
+        meaning: '«м» с вирамой',
+        hint: 'Завершает имя «Говиндам» — «тот, кто радует землю и коров».'
+      },
+      {
+        deva: 'आ',
+        translit: 'ā',
+        example: 'आदि (ādi)',
+        meaning: 'долгое «а»',
+        hint: 'Отдельная буква для долгого «а» в начале слова (не знак, а самостоятельная гласная).'
+      },
+      {
+        deva: 'दि',
+        translit: 'di',
+        example: 'आदि (ādi)',
+        meaning: '«ди»',
+        hint: '«द» + «ि» = короткое «ди».'
+      },
+      {
+        deva: 'पु',
+        translit: 'pu',
+        example: 'पुरुषम् (puruṣam)',
+        meaning: '«пу»',
+        hint: 'Обычный «п» с коротким «у».'
+      },
+      {
+        deva: 'रु',
+        translit: 'ru',
+        example: 'पुरुषम् (puruṣam)',
+        meaning: '«ру»',
+        hint: 'Мягкое «ра» с кратким «у».'
+      },
+      {
+        deva: 'षं',
+        translit: 'ṣaṁ',
+        example: 'पुरुषम् / पुरुषं (puruṣam)',
+        meaning: 'церебральное «шам»',
+        hint: 'Церебральный «ष» (как в विशेष) с носовым звуком на конце.'
+      },
+      {
+        deva: 'त',
+        translit: 'ta',
+        example: 'तम् (tam)',
+        meaning: '«та»',
+        hint: 'Обычный «т», как в самом начале слова तम् — «Его».'
+      },
+      {
+        deva: 'म्',
+        translit: 'm',
+        example: 'तम् (tam)',
+        meaning: '«м» с вирамой',
+        hint: 'Завершает короткое слово «тот, тем».'
+      },
+      {
+        deva: 'अ',
+        translit: 'a',
+        example: 'अहम् (aham)',
+        meaning: 'короткое «а»',
+        hint: 'Начало слова «ахам» — «я».'
+      },
+      {
+        deva: 'हं',
+        translit: 'haṁ',
+        example: 'अहम् / तमहं (aham)',
+        meaning: '«хам» с носовым звуком',
+        hint: 'Лёгкий выдох «х» плюс анусвара — носовой призвук в конце.'
+      },
+      {
+        deva: 'भ',
+        translit: 'bha',
+        example: 'भजामि (bhajāmi)',
+        meaning: 'придыхательное «бха»',
+        hint: 'Тот же звук, что и в शोभम्.'
+      },
+      {
+        deva: 'जा',
+        translit: 'jā',
+        example: 'भजामि (bhajāmi)',
+        meaning: 'долгое «джа»',
+        hint: '«ज» («джа») со знаком долгого «а».'
+      },
+      {
+        deva: 'मि',
+        translit: 'mi',
+        example: 'भजामि (bhajāmi)',
+        meaning: '«ми»',
+        hint: 'Завершает слово «поклоняюсь» — мягкое «ми».'
       }
     ];
 
@@ -236,7 +610,7 @@
     btn.addEventListener('click', () => {
       if (currentIndex >= syllables.length) {
         currentIndex = 0;
-        alert('Прошли все карточки! Можно начать заново.');
+        alert('Прошли все слоги! Можно начать заново.');
       }
       const s = syllables[currentIndex];
 
@@ -249,7 +623,14 @@
       card.style.display = 'block';
       btn.textContent = 'Ещё один слог';
       currentIndex++;
+
+      debugInfoUpdate();
     });
+
+    function debugInfoUpdate() {
+      document.getElementById('debugInfo').textContent =
+        'Слог ' + currentIndex + ' из ' + syllables.length;
+    }
   </script>
 </body>
 </html>
