@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Шри Гуру Пранам: слоги деванагари</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdfbf7;
+      color: #222;
+      padding: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .full-verse {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .full-verse .line {
+      font-style: italic;
+      color: #1e3a8a;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+    }
+    .letter-large {
+      font-size: 64px;
+      line-height: 1;
+      font-weight: 600;
+      color: #1e3a8a;
+      margin: 10px 0 12px 0;
+    }
+    .translit {
+      display: block;
+      font-size: 28px;
+      color: #334155;
+      margin-bottom: 16px;
+      font-weight: normal;
+    }
+    .example-word {
+      font-weight: bold;
+      color: #0563bb;
+      margin-bottom: 4px;
+    }
+    .meaning-small {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+    .hint {
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    button {
+      width: 100%;
+      padding: 16px;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    button:hover {
+      background: #254a9e;
+    }
+    .lotus-icon {
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 0.5rem;
+    }
+    .divider {
+      display: block;
+      width: 100%;
+      max-width: 350px;
+      margin: 1.5rem auto;
+    }
+  </style>
+</head>
+<body>
+  <img src="lotus.svg" alt="" class="lotus-icon">
+  <h1>Шри Гуру Пранам</h1>
+  <p class="subtitle">Тренажёр слогов деванагари</p>
+
+  <div class="full-verse">
+    <div class="line">Ом агьяна-тимирандхасья гьянанджана-шалакая</div>
+    <div class="line">чакшурунмилитам йена тасмаи шри-гураве намах</div>
+  </div>
+
+  <img src="divider.svg" alt="" class="divider">
+
+  <button id="showBtn">Следующий слог</button>
+
+  <div class="card" id="card">
+    <div class="letter-large" id="letterDeva"></div>
+    <span class="translit" id="letterTranslit"></span>
+    <div class="example-word" id="exampleWord"></div>
+    <div class="meaning-small" id="meaningSmall"></div>
+    <div class="hint" id="hintText"></div>
+  </div>
+
+  <script>
+    const syllables = [
+      {
+        deva: 'ॐ',
+        translit: 'oṁ',
+        example: 'ॐ (oṁ)',
+        meaning: 'священный слог',
+        hint: 'Это не обычный слог, а символ, состоящий из трёх звуков a-u-m, слитых в один. Произноси протяжно: «оооммм».'
+      },
+      {
+        deva: 'अ',
+        translit: 'a',
+        example: 'अज्ञान (ajñāna)',
+        meaning: 'короткий гласный «а»',
+        hint: 'Обычное короткое «а», как в начале слова «арбуз».'
+      },
+      {
+        deva: 'ज्ञा',
+        translit: 'jñā',
+        example: 'अज्ञान (ajñāna)',
+        meaning: 'сложное сочетание «джня» + долгое «а»',
+        hint: '«ज्ञ» — один из самых непростых санскритских конъюнктов (сочетаний согласных). Звучит примерно как мягкое «гья» или «джня». Знак «ा» после него даёт долгое «а».'
+      },
+      {
+        deva: 'न',
+        translit: 'na',
+        example: 'अज्ञान (ajñāna)',
+        meaning: 'обычный «на»',
+        hint: 'Простой зубной «н» со стандартным гласным «а».'
+      },
+      {
+        deva: 'ति',
+        translit: 'ti',
+        example: 'तिमिर (timira)',
+        meaning: '«ти»',
+        hint: '«त» + знак «ि» слева = короткое «ти».'
+      },
+      {
+        deva: 'मि',
+        translit: 'mi',
+        example: 'तिमिर (timira)',
+        meaning: '«ми»',
+        hint: '«म» + «ि» = короткое «ми».'
+      },
+      {
+        deva: 'रा',
+        translit: 'rā',
+        example: 'तिमिरान्धस्य (timirāndhasya)',
+        meaning: 'долгое «ра»',
+        hint: 'Здесь «र» встречается с долгим «а» на стыке двух слов (тимира + андхасья) — в санскрите это называется сандхи, слияние звуков.'
+      },
+      {
+        deva: 'न्ध',
+        translit: 'ndha',
+        example: 'तिमिरान्धस्य (timirāndhasya)',
+        meaning: 'сочетание «н + дха»',
+        hint: 'Два согласных подряд без гласного между ними — «न्» (голая «н», вирама убирает «а») плюс «ध» (придыхательная «дха»). Читай слитно: «ндха».'
+      },
+      {
+        deva: 'स्य',
+        translit: 'sya',
+        example: 'तिमिरान्धस्य (timirāndhasya)',
+        meaning: 'окончание родительного падежа «сья»',
+        hint: '«स्» (голая «с») + «य» (йа) = «сья». Частое окончание в санскритской грамматике — как «принадлежащий кому-то».'
+      },
+      {
+        deva: 'ना',
+        translit: 'nā',
+        example: 'ज्ञानाञ्जन (jñānāñjana)',
+        meaning: 'долгое «на»',
+        hint: 'Здесь два «а» подряд (jñāna + añjana) сливаются в одно долгое — снова сандхи.'
+      },
+      {
+        deva: 'ञ्ज',
+        translit: 'ñja',
+        example: 'ज्ञानाञ्जन (jñānāñjana)',
+        meaning: 'носовой + «джа»',
+        hint: '«ञ्» — нёбный носовой звук (похож на «нь» перед «дж») плюс «ज» («джа»). Вместе звучит как мягкое «ньджа».'
+      },
+      {
+        deva: 'श',
+        translit: 'śa',
+        example: 'शलाकया (śalākayā)',
+        meaning: 'шипящий «ша»',
+        hint: 'Мягкий нёбный «ш», не такой твёрдый, как русское «ш». Ближе к «щя».'
+      },
+      {
+        deva: 'ला',
+        translit: 'lā',
+        example: 'शलाकया (śalākayā)',
+        meaning: 'долгое «ла»',
+        hint: 'Мягкий «л» с долгим «а» после него.'
+      },
+      {
+        deva: 'क',
+        translit: 'ka',
+        example: 'शलाकया (śalākayā)',
+        meaning: '«ка»',
+        hint: 'Обычный твёрдый «к» со стандартным «а».'
+      },
+      {
+        deva: 'या',
+        translit: 'yā',
+        example: 'शलाकया (śalākayā)',
+        meaning: 'окончание творительного падежа',
+        hint: '«य» + долгое «ा» = «йа-а», читается как протяжное «я». Показывает, что действие совершается «посредством» чего-то (в данном случае — инструментом знания).'
+      },
+      {
+        deva: 'च',
+        translit: 'ca',
+        example: 'चक्षुः (cakṣuḥ)',
+        meaning: '«ча»',
+        hint: 'Мягкий «ч», близкий к русскому «ча».'
+      },
+      {
+        deva: 'क्षु',
+        translit: 'kṣu',
+        example: 'चक्षुः (cakṣuḥ)',
+        meaning: 'сочетание «кшу»',
+        hint: '«क्ष» — очень частый санскритский конъюнкт («к» + «ш»), звучит как «кша». Здесь с гласным «у»: «кшу».'
+      },
+      {
+        deva: 'रु',
+        translit: 'ru',
+        example: 'चक्षुरुन्मीलितं (cakṣur unmīlitaṁ)',
+        meaning: '«ру»',
+        hint: 'На стыке слов «cakṣuḥ» + «unmīlitaṁ» звук «ḥ» (висарга) переходит в «р» — ещё один пример сандхи. Получается «чакшур».'
+      },
+      {
+        deva: 'न्मी',
+        translit: 'nmī',
+        example: 'उन्मीलितं (unmīlitaṁ)',
+        meaning: 'сочетание «н + ми» (долгое)',
+        hint: '«न्» (голая «н») + «मी» (ми с долгим «и»). Читай слитно: «нми:».'
+      },
+      {
+        deva: 'लि',
+        translit: 'li',
+        example: 'उन्मीलितं (unmīlitaṁ)',
+        meaning: '«ли»',
+        hint: 'Мягкий «л» с коротким «и».'
+      },
+      {
+        deva: 'तं',
+        translit: 'taṁ',
+        example: 'उन्मीलितं (unmīlitaṁ)',
+        meaning: '«там» с носовым звуком',
+        hint: 'Точка сверху (анусвара) добавляет лёгкий носовой призвук к «т». Читай как «там», не напрягая звук «м».'
+      },
+      {
+        deva: 'ये',
+        translit: 'ye',
+        example: 'येन (yena)',
+        meaning: '«йе»',
+        hint: '«य» + знак «े» сверху = долгий «е». Звучит как «йе».'
+      },
+      {
+        deva: 'न',
+        translit: 'na',
+        example: 'येन (yena)',
+        meaning: '«на» — творительный падеж «кем, чем»',
+        hint: 'Обычный «на» в конце слова, без виramы — значит, гласный «а» произносится.'
+      },
+      {
+        deva: 'त',
+        translit: 'ta',
+        example: 'तस्मै (tasmai)',
+        meaning: '«та»',
+        hint: 'Обычный зубной «т» со стандартным «а».'
+      },
+      {
+        deva: 'स्मै',
+        translit: 'smai',
+        example: 'तस्मै (tasmai)',
+        meaning: 'сочетание «с + маи»',
+        hint: '«स्» (голая «с») + «मै» («маи», дифтонг). Читай слитно: «смаи».'
+      },
+      {
+        deva: 'श्री',
+        translit: 'śrī',
+        example: 'श्री-गुरवे (śrī-gurave)',
+        meaning: 'почтительная приставка «шри»',
+        hint: '«श्» (голая «ш») + «री» (ри с долгим «и»). Это уважительная приставка перед именами — как «досточтимый».'
+      },
+      {
+        deva: 'गु',
+        translit: 'gu',
+        example: 'गुरवे (gurave)',
+        meaning: '«гу»',
+        hint: 'Обычный звонкий «г» с коротким «у». Слог «gu» лежит в основе слова «гуру» — «тот, кто рассеивает тьму».'
+      },
+      {
+        deva: 'र',
+        translit: 'ra',
+        example: 'गुरवे (gurave)',
+        meaning: '«ра»',
+        hint: 'Мягкое, короткое «ра», без раскатистости.'
+      },
+      {
+        deva: 'वे',
+        translit: 've',
+        example: 'गुरवे (gurave)',
+        meaning: '«ве» — дательный падеж «учителю»',
+        hint: '«व» + знак «े» = «ве». Окончание показывает, что поклон адресован именно Учителю (дательный падеж).'
+      },
+      {
+        deva: 'मः',
+        translit: 'maḥ',
+        example: 'नमः (namaḥ)',
+        meaning: '«мах» с придыханием',
+        hint: 'Две точки после буквы (висарга «ः») добавляют лёгкий выдох «х» в конце. Читай как «мах», с мягким выдохом.'
+      }
+    ];
+
+    const btn = document.getElementById('showBtn');
+    const card = document.getElementById('card');
+    const letterDeva = document.getElementById('letterDeva');
+    const letterTranslit = document.getElementById('letterTranslit');
+    const exampleWord = document.getElementById('exampleWord');
+    const meaningSmall = document.getElementById('meaningSmall');
+    const hintText = document.getElementById('hintText');
+
+    let currentIndex = 0;
+
+    btn.addEventListener('click', () => {
+      if (currentIndex >= syllables.length) {
+        currentIndex = 0;
+        alert('Прошли все слоги! Можно начать заново.');
+      }
+      const s = syllables[currentIndex];
+
+      letterDeva.textContent = s.deva;
+      letterTranslit.textContent = s.translit;
+      exampleWord.textContent = s.example;
+      meaningSmall.textContent = s.meaning;
+      hintText.textContent = s.hint;
+
+      card.style.display = 'block';
+      btn.textContent = 'Ещё один слог';
+      currentIndex++;
+    });
+  </script>
+</body>
+</html>
