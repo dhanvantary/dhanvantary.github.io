@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Шри Гуру Пранам: слово дня</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdfbf7;
+      color: #222;
+      padding: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .full-verse {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .full-verse .line {
+      font-style: italic;
+      color: #1e3a8a;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .lotus-icon {
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 0.5rem;
+    }
+    .divider {
+      display: block;
+      width: 100%;
+      max-width: 350px;
+      margin: 1.5rem auto;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-top: 24px;
+      display: none;
+    }
+    .sanskrit {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1e3a8a;
+      text-align: center;
+      margin: 8px 0;
+    }
+    .breakdown {
+      margin: 4px 0 16px 0;
+      padding-top: 12px;
+      border-top: 1px dashed #ddd;
+      display: none;
+    }
+    .breakdown-title {
+      font-size: 12px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .breakdown-item:last-child {
+      border-bottom: none;
+    }
+    .breakdown-word {
+      font-weight: 600;
+      color: #1e3a8a;
+      white-space: nowrap;
+    }
+    .breakdown-meaning {
+      text-align: right;
+      font-size: 14px;
+    }
+    .breakdown-meaning .en {
+      display: block;
+      color: #888;
+      font-style: italic;
+      font-size: 12px;
+    }
+    .translit {
+      display: block;
+      color: #475569;
+      margin: 6px 0 12px 0;
+      text-align: center;
+      font-style: italic;
+    }
+    .meaning-row {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .meaning-ru {
+      font-weight: bold;
+      display: block;
+      white-space: pre-line;
+    }
+    .meaning-en {
+      color: #777;
+      font-style: italic;
+      font-size: 14px;
+      display: block;
+    }
+    .context-ru, .context-en {
+      font-style: italic;
+      margin-bottom: 10px;
+      padding-left: 10px;
+      border-left: 3px solid #388e3c;
+      line-height: 1.4;
+    }
+    .context-en {
+      color: #555;
+      border-color: #4f46e5;
+    }
+    button {
+      width: 100%;
+      padding: 18px;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    button:hover {
+      background: #254a9e;
+    }
+    .debug {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+    }
+
+    /* Перевод в конце этой страницы */
+    .final-translation {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .final-title {
+      font-size: 13px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+    .final-ru {
+      color: #1e3a8a;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .final-en {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+      font-style: italic;
+      padding-top: 16px;
+      border-top: 1px dashed #ddd;
+    }
+
+    .audio-player {
+      background: white;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin: 20px 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .audio-title {
+      color: #1e3a8a;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .audio-player audio {
+      width: 100%;
+      height: 42px;
+    }
+  </style>
+</head>
+<body>
+  <img src="lotus.svg" alt="" class="lotus-icon">
+  <h1>Шри Гуру Пранам</h1>
+  <p class="subtitle">Карточки слов</p>
+
+  <div class="full-verse">
+    <div class="line">Ом агьяна-тимирандхасья гьянанджана-шалакая</div>
+    <div class="line">чакшурунмилитам йена тасмаи шри-гураве намах</div>
+  </div>
+
+  <img src="divider.svg" alt="" class="divider">
+
+  <div class="audio-player">
+    <div class="audio-title">🎵 gurupranam</div>
+    <audio controls preload="metadata">
+      <source src="gurupranam.mp3" type="audio/mpeg">
+      Ваш браузер не поддерживает воспроизведение аудио.
+    </audio>
+  </div>
+
+  <button id="showBtn">Следующее слово</button>
+
+  <div class="card" id="wordCard">
+    <div class="sanskrit" id="sanskritWord"></div>
+
+    <div class="breakdown" id="breakdownBlock">
+      <div class="breakdown-title">Пословный разбор</div>
+      <div id="breakdownList"></div>
+    </div>
+
+    <span class="translit" id="translitWord"></span>
+    <div class="meaning-row">
+      <span class="meaning-ru" id="meaningRu"></span>
+      <span class="meaning-en" id="meaningEn"></span>
+    </div>
+    <div class="context-ru" id="contextRu"></div>
+    <div class="context-en" id="contextEn"></div>
+  </div>
+
+  <div class="debug" id="debugInfo"></div>
+
+  <div class="final-translation">
+    <div class="final-title">Перевод стиха</div>
+
+    <div class="final-ru">
+      В глубоком почтении склоняюсь перед своим духовным учителем,
+      который открыл мне глаза, рассеяв тьму невежества светом знания.
+    </div>
+
+    <div class="final-en">
+      I offer my respectful obeisances unto my spiritual master,
+      who has opened my eyes, which were blinded by the darkness of ignorance,
+      with the torchlight of knowledge.
+    </div>
+  </div>
+
+  <script>
+    const words = [
+      {
+        sanskrit: 'ॐ',
+        translit: 'ом',
+        meaningRu: 'Ом — обращение к Богу, тишина, в которой ты слышишь Его.',
+        meaningEn: 'Om is a call to God, the silence in which you hear Him.',
+        contextRu: 'Ом — тишина, в которой слышно всё: Бог собирает внимание в одну точку.',
+        contextEn: 'Om is the silence where everything can be heard: God draws your focus to a single point.'
+      },
+      {
+        sanskrit: 'अज्ञान-तिमिरान्धस्य',
+        translit: 'агьяна-тимирандхасья',
+        meaningRu: 'ослеплённый тьмой неведения',
+        meaningEn: 'blinded by the darkness of ignorance',
+        contextRu: 'Невежество — как густая тьма: она ослепляет, и ты не видишь даже собственной дороги.',
+        contextEn: 'Ignorance is like a dense darkness: it blinds you, so you cannot see even the path right in front of you.',
+        breakdown: [
+          { word: 'агьяна', meaningRu: 'неведение, незнание', meaningEn: 'ignorance' },
+          { word: 'тимира', meaningRu: 'тьма, мрак', meaningEn: 'darkness' },
+          { word: 'андха', meaningRu: 'слепой, ослеплённый', meaningEn: 'blind' },
+          { word: '-сья', meaningRu: 'родительный падеж: "того, кто..."', meaningEn: 'genitive case: "of one who..."' }
+        ]
+      },
+      {
+        sanskrit: 'ज्ञानाञ्जन-शलाकया',
+        translit: 'гьянанджана-шалакая',
+        meaningRu: `añjana в традиционной практике — лечебная мазь для глаз. śalākā — тонкий инструмент (в т. ч. в древнеиндийской хирургии).
+Здесь это поэтическая метафора: знание уподоблено средству, которое «открывает глаза» духовно.`,
+        meaningEn: 'knowledge, tool',
+        contextRu: 'Знание — это и лекарство, и тонкий инструмент: им лечат слепоту ума.',
+        contextEn: 'Knowledge is both a remedy and a delicate tool: it heals the mind’s blindness.'
+      },
+      {
+        sanskrit: 'चक्षुरुन्मीलितं',
+        translit: 'чакшурунмилитам',
+        meaningRu: 'глаза, прозрение',
+        meaningEn: 'eyes, insight',
+        contextRu: 'Раскрыть глаза — значит увидеть не только мир, но и свои прежние иллюзии.',
+        contextEn: 'Opening your eyes means seeing not just the world, but also the illusions you used to believe.'
+      },
+      {
+        sanskrit: 'येन',
+        translit: 'йена',
+        meaningRu: 'тем, кем',
+        meaningEn: 'by whom',
+        contextRu: 'Именно его действием тьма рассеивается — поэтому мы отмечаем роль Учителя.',
+        contextEn: 'It is through his action that the darkness is dispelled—that’s why we honor the Teacher’s role.'
+      },
+      {
+        sanskrit: 'तस्मै',
+        translit: 'тасмаи',
+        meaningRu: 'тому, дательный падеж',
+        meaningEn: 'to him, dative case',
+        contextRu: 'Тому, кто показал путь, мы отдаём должное: благодарность — это форма уважения.',
+        contextEn: 'To the one who showed the way, we give our due: gratitude is a form of respect.'
+      },
+      {
+        sanskrit: 'श्री-गुरवे',
+        translit: 'шри-гураве',
+        meaningRu: 'духовный учитель',
+        meaningEn: 'spiritual teacher',
+        contextRu: 'Шри Гуру — не просто наставник: это тот, кто зажигает внутренний свет.',
+        contextEn: 'Sri Guru is more than a guide: he is the one who kindles the inner light.'
+      },
+      {
+        sanskrit: 'नमः',
+        translit: 'намах',
+        meaningRu: 'поклон, почтение',
+        meaningEn: 'bow, reverence',
+        contextRu: 'Намах — это не слабость, а признание: я склоняюсь перед тем, что выше меня.',
+        contextEn: 'Namah is not a sign of weakness, but an act of recognition: I bow before what is greater than me.'
+      }
+    ];
+
+    let currentIndex = -1;
+
+    function showNextWord() {
+      currentIndex = (currentIndex + 1) % words.length;
+      const w = words[currentIndex];
+
+      document.getElementById('sanskritWord').textContent = w.sanskrit;
+      document.getElementById('translitWord').textContent = w.translit;
+      document.getElementById('meaningRu').textContent = w.meaningRu;
+      document.getElementById('meaningEn').textContent = w.meaningEn;
+      document.getElementById('contextRu').textContent = w.contextRu;
+      document.getElementById('contextEn').textContent = w.contextEn;
+
+      const breakdownBlock = document.getElementById('breakdownBlock');
+      const breakdownList = document.getElementById('breakdownList');
+      breakdownList.innerHTML = '';
+
+      if (w.breakdown && w.breakdown.length) {
+        w.breakdown.forEach(item => {
+          const row = document.createElement('div');
+          row.className = 'breakdown-item';
+          row.innerHTML =
+            '<span class="breakdown-word">' + item.word + '</span>' +
+            '<span class="breakdown-meaning">' + item.meaningRu +
+            '<span class="en">' + item.meaningEn + '</span></span>';
+          breakdownList.appendChild(row);
+        });
+        breakdownBlock.style.display = 'block';
+      } else {
+        breakdownBlock.style.display = 'none';
+      }
+
+      document.getElementById('wordCard').style.display = 'block';
+      document.getElementById('debugInfo').textContent =
+        'Слово ' + (currentIndex + 1) + ' из ' + words.length;
+    }
+
+    document.getElementById('showBtn').addEventListener('click', showNextWord);
+  </script>
+</body>
+</html>
