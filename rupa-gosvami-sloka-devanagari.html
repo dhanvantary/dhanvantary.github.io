@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Шлока Рупы Госвами: слоги деванагари</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdfbf7;
+      color: #222;
+      padding: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .full-verse {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .full-verse .line {
+      font-style: italic;
+      color: #1e3a8a;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+    }
+    .letter-large {
+      font-size: 64px;
+      line-height: 1;
+      font-weight: 600;
+      color: #1e3a8a;
+      margin: 10px 0 12px 0;
+    }
+    .translit {
+      display: block;
+      font-size: 28px;
+      color: #334155;
+      margin-bottom: 16px;
+      font-weight: normal;
+    }
+    .example-word {
+      font-weight: bold;
+      color: #0563bb;
+      margin-bottom: 4px;
+    }
+    .meaning-small {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+    .hint {
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    button {
+      width: 100%;
+      padding: 16px;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    button:hover {
+      background: #254a9e;
+    }
+    .lotus-icon {
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 0.5rem;
+    }
+    .divider {
+      display: block;
+      width: 100%;
+      max-width: 350px;
+      margin: 1.5rem auto;
+    }
+    .debug {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <img src="lotus.svg" alt="" class="lotus-icon">
+  <h1>Шлока Рупы Госвами</h1>
+  <p class="subtitle">Тренажёр слогов деванагари</p>
+
+  <div class="full-verse">
+    <div class="line">Шри Чайтанья мано-бхиштам стхапитам йена бхутале</div>
+    <div class="line">сваям Рупаḥ када махьям дадати свападантикам</div>
+  </div>
+
+  <img src="divider.svg" alt="" class="divider">
+
+  <button id="showBtn">Следующий слог</button>
+
+  <div class="card" id="card">
+    <div class="letter-large" id="letterDeva"></div>
+    <span class="translit" id="letterTranslit"></span>
+    <div class="example-word" id="exampleWord"></div>
+    <div class="meaning-small" id="meaningSmall"></div>
+    <div class="hint" id="hintText"></div>
+  </div>
+
+  <div class="debug" id="debugInfo"></div>
+
+  <script>
+    const syllables = [
+      {
+        deva: 'श्री',
+        translit: 'śrī',
+        example: 'श्रीचैतन्य (śrī-caitanya)',
+        meaning: 'почтительная приставка «шри»',
+        hint: '«श्» (голая «ш») + «री» (ри с долгим «и»). Такая же уважительная приставка, как в श्री-गुरवे.'
+      },
+      {
+        deva: 'चै',
+        translit: 'cai',
+        example: 'श्रीचैतन्य (śrī-caitanya)',
+        meaning: '«чай» — дифтонг',
+        hint: '«च» + гласный «ै» (ai) дают дифтонг «чай». Так начинается имя «Чайтанья».'
+      },
+      {
+        deva: 'त',
+        translit: 'ta',
+        example: 'श्रीचैतन्य (śrī-caitanya)',
+        meaning: '«та»',
+        hint: 'Обычный зубной «т» со стандартным «а».'
+      },
+      {
+        deva: 'न्य',
+        translit: 'nya',
+        example: 'श्रीचैतन्य (śrī-caitanya)',
+        meaning: 'конъюнкт «нья»',
+        hint: '«न» + вирама + «य» сливаются в мягкое «нья» — характерный звук для имени «Чайтанья».'
+      },
+      {
+        deva: 'म',
+        translit: 'ma',
+        example: 'मनोभीष्टम् (mano-’bhīṣṭam)',
+        meaning: '«ма»',
+        hint: 'Обычный «м» со стандартным «а», начинает слово «мано-бхиштам» — «желание сердца».'
+      },
+      {
+        deva: 'नो',
+        translit: 'no',
+        example: 'मनोभीष्टम् (mano-’bhīṣṭam)',
+        meaning: '«но»',
+        hint: '«न» + знак «ो» = долгое «но».'
+      },
+      {
+        deva: 'भी',
+        translit: 'bhī',
+        example: 'मनोभीष्टम् (mano-’bhīṣṭam)',
+        meaning: 'долгое «бхи»',
+        hint: '«भ» (придыхательное «б») + знак «ी» = долгое «бхи».'
+      },
+      {
+        deva: 'ष्ट',
+        translit: 'ṣṭa',
+        example: 'मनोभीष्टम् (mano-’bhīṣṭam)',
+        meaning: 'согласный кластер «шт»',
+        hint: '«ष» (церебральное «ш») + «ट» (церебральное «т») сливаются без гласного между ними — получается плотный кластер «шт».'
+      },
+      {
+        deva: 'म्',
+        translit: 'm',
+        example: 'मनोभीष्टम् (mano-’bhīṣṭam)',
+        meaning: '«м» с вирамой',
+        hint: 'Точка снизу убирает «а». Завершает слово анусварным «м».'
+      },
+      {
+        deva: 'स्',
+        translit: 's',
+        example: 'स्थापितं (sthāpitaṁ)',
+        meaning: 'голая «с» (начало кластера)',
+        hint: 'Вирама убирает «а» — это первая часть кластера «стха».'
+      },
+      {
+        deva: 'था',
+        translit: 'thā',
+        example: 'स्थापितं (sthāpitaṁ)',
+        meaning: 'придыхательное «тха»',
+        hint: '«थ» — «т» с лёгким выдохом, плюс долгое «а». Вместе с предыдущим «स्» даёт «стха».'
+      },
+      {
+        deva: 'पि',
+        translit: 'pi',
+        example: 'स्थापितं (sthāpitaṁ)',
+        meaning: '«пи»',
+        hint: '«प» + «ि» = короткое «пи».'
+      },
+      {
+        deva: 'तं',
+        translit: 'taṁ',
+        example: 'स्थापितं (sthāpitaṁ)',
+        meaning: '«там» с анусварой',
+        hint: 'Точка сверху добавляет носовой призвук: «там».'
+      },
+      {
+        deva: 'ये',
+        translit: 'ye',
+        example: 'येन (yena)',
+        meaning: '«йе»',
+        hint: '«य» + «े» = долгий «йе».'
+      },
+      {
+        deva: 'न',
+        translit: 'na',
+        example: 'येन (yena)',
+        meaning: '«на»',
+        hint: 'Обычный «на» в конце слова «йена» — «которым».'
+      },
+      {
+        deva: 'भ',
+        translit: 'bha',
+        example: 'भूतले (bhū-tale)',
+        meaning: '«бха»',
+        hint: 'Придыхательный «б», начинает слово «бхутале» — «на земле».'
+      },
+      {
+        deva: 'ू',
+        translit: 'ū',
+        example: 'भू (bhū)',
+        meaning: 'знак долгого «у»',
+        hint: 'Ставится под согласной и делает гласный долгим: «бх» + «ू» = «бху».'
+      },
+      {
+        deva: 'त',
+        translit: 'ta',
+        example: 'भूतले (bhū-tale)',
+        meaning: '«та»',
+        hint: 'Обычный зубной «т».'
+      },
+      {
+        deva: 'ले',
+        translit: 'le',
+        example: 'भूतले (bhū-tale)',
+        meaning: '«ле»',
+        hint: '«ल» + «े» = долгое «ле», завершает слово «на земле».'
+      },
+      {
+        deva: 'स्',
+        translit: 's',
+        example: 'स्वयं (svayaṁ)',
+        meaning: 'голая «с» (начало кластера)',
+        hint: 'Вирама убирает «а» — первая часть кластера «сва».'
+      },
+      {
+        deva: 'वयं',
+        translit: 'vayaṁ',
+        example: 'स्वयं (svayaṁ)',
+        meaning: '«вайам» — часть слова «сам»',
+        hint: '«व» + «य» + анусвара сливаются в «вайам». Вместе с «स्» перед ним получается «свайам» — «сам».'
+      },
+      {
+        deva: 'रू',
+        translit: 'rū',
+        example: 'रूपः (rūpaḥ)',
+        meaning: 'долгое «ру»',
+        hint: '«र» + знак «ू» = долгое «ру», начинает имя «Рупа».'
+      },
+      {
+        deva: 'पः',
+        translit: 'paḥ',
+        example: 'रूपः (rūpaḥ)',
+        meaning: '«па» с висаргой',
+        hint: 'Две точки после буквы (висарга «ः») добавляют лёгкий выдох «х» в конце: «пах».'
+      },
+      {
+        deva: 'कदा',
+        translit: 'kadā',
+        example: 'कदा (kadā)',
+        meaning: '«када» — «когда»',
+        hint: '«क» + «द» + долгое «а» — целое слово из двух слогов: «ка-да».'
+      },
+      {
+        deva: 'मह्यं',
+        translit: 'mahyaṁ',
+        example: 'मह्यं (mahyaṁ)',
+        meaning: '«махьям» — «мне»',
+        hint: '«म» + «ह्य» (х+й слитно) + анусвара. Читай слитно: «ма-хьям».'
+      },
+      {
+        deva: 'ददा',
+        translit: 'dadā',
+        example: 'ददाति (dadāti)',
+        meaning: '«дада»',
+        hint: 'Повтор слога «да» с долгим «а» на конце — характерный приём в слове «дадати», «даёт».'
+      },
+      {
+        deva: 'ति',
+        translit: 'ti',
+        example: 'ददाति (dadāti)',
+        meaning: '«ти»',
+        hint: '«त» + «ि» = короткое «ти», завершает слово «дадати».'
+      },
+      {
+        deva: 'स्',
+        translit: 's',
+        example: 'स्वपदान्तिकम् (sva-padāntikam)',
+        meaning: 'голая «с» (начало кластера)',
+        hint: 'Вирама убирает «а» — начало длинного слова «свападантикам».'
+      },
+      {
+        deva: 'व',
+        translit: 'va',
+        example: 'स्वपदान्तिकम् (sva-padāntikam)',
+        meaning: '«ва»',
+        hint: 'Вместе с предыдущим «स्» даёт «сва» — «свои».'
+      },
+      {
+        deva: 'पदा',
+        translit: 'padā',
+        example: 'स्वपदान्तिकम् (sva-padāntikam)',
+        meaning: '«пада» — «стопы»',
+        hint: '«प» + «द» + долгое «а» = «пада», знакомое слово «стопы», встречается во многих молитвах.'
+      },
+      {
+        deva: 'ंति',
+        translit: 'nti',
+        example: 'स्वपदान्तिकम् (sva-padāntikam)',
+        meaning: '«нти»',
+        hint: 'Анусвара перед «त» звучит как «н», плюс «ि» даёт «нти».'
+      },
+      {
+        deva: 'कम्',
+        translit: 'kam',
+        example: 'स्वपदान्तिकम् (sva-padāntikam)',
+        meaning: '«кам» с вирамой',
+        hint: '«क» + «म्» (вирама убирает «а») — завершает слово «свападантикам», «у стоп».'
+      }
+    ];
+
+    const btn = document.getElementById('showBtn');
+    const card = document.getElementById('card');
+    const letterDeva = document.getElementById('letterDeva');
+    const letterTranslit = document.getElementById('letterTranslit');
+    const exampleWord = document.getElementById('exampleWord');
+    const meaningSmall = document.getElementById('meaningSmall');
+    const hintText = document.getElementById('hintText');
+
+    let currentIndex = 0;
+
+    btn.addEventListener('click', () => {
+      if (currentIndex >= syllables.length) {
+        currentIndex = 0;
+        alert('Прошли все слоги! Можно начать заново.');
+      }
+      const s = syllables[currentIndex];
+
+      letterDeva.textContent = s.deva;
+      letterTranslit.textContent = s.translit;
+      exampleWord.textContent = s.example;
+      meaningSmall.textContent = s.meaning;
+      hintText.textContent = s.hint;
+
+      card.style.display = 'block';
+      btn.textContent = 'Ещё один слог';
+      currentIndex++;
+
+      document.getElementById('debugInfo').textContent =
+        'Слог ' + currentIndex + ' из ' + syllables.length;
+    });
+  </script>
+</body>
+</html>
