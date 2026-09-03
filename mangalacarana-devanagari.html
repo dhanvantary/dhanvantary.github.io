@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мангалачарана: слоги деванагари</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdfbf7;
+      color: #222;
+      padding: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .full-verse {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .full-verse .line {
+      font-style: italic;
+      color: #1e3a8a;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+    }
+    .letter-large {
+      font-size: 64px;
+      line-height: 1;
+      font-weight: 600;
+      color: #1e3a8a;
+      margin: 10px 0 12px 0;
+    }
+    .translit {
+      display: block;
+      font-size: 28px;
+      color: #334155;
+      margin-bottom: 16px;
+      font-weight: normal;
+    }
+    .example-word {
+      font-weight: bold;
+      color: #0563bb;
+      margin-bottom: 4px;
+    }
+    .meaning-small {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+    .hint {
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    button {
+      width: 100%;
+      padding: 16px;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    button:hover {
+      background: #254a9e;
+    }
+    .lotus-icon {
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 0.5rem;
+    }
+    .divider {
+      display: block;
+      width: 100%;
+      max-width: 350px;
+      margin: 1.5rem auto;
+    }
+    .debug {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <img src="lotus.svg" alt="" class="lotus-icon">
+  <h1>Мангалачарана</h1>
+  <p class="subtitle">Тренажёр слогов деванагари</p>
+
+  <div class="full-verse">
+    <div class="line">ванде ’хам шри-гурох шри-йута-пада-камалам шри-гурун ваишнавамш ча</div>
+    <div class="line">шри-рупам саграджатам саха-гана-рагхунатханвитам там са-дживам</div>
+    <div class="line">садваитам савадхутам париджана-сахитам кришна-чаитанйа-девам</div>
+    <div class="line">шри-радха-кришна-падан саха-гана-лалита-шри-вишакханвитамш ча</div>
+  </div>
+
+  <img src="divider.svg" alt="" class="divider">
+
+  <button id="showBtn">Следующий слог</button>
+
+  <div class="card" id="card">
+    <div class="letter-large" id="letterDeva"></div>
+    <span class="translit" id="letterTranslit"></span>
+    <div class="example-word" id="exampleWord"></div>
+    <div class="meaning-small" id="meaningSmall"></div>
+    <div class="hint" id="hintText"></div>
+  </div>
+
+  <div class="debug" id="debugInfo"></div>
+
+  <script>
+    const syllables = [
+      {
+        deva: 'वन्',
+        translit: 'van',
+        example: 'वन्दे (vande)',
+        meaning: 'первый слог «в почтении склоняюсь»',
+        hint: '«व» + вирама на «न्» — согласный кластер «в+н», за которым следует «де».'
+      },
+      {
+        deva: 'दे',
+        translit: 'de',
+        example: 'वन्दे (vande)',
+        meaning: '«де»',
+        hint: '«द» + знак «े» = долгое «де», завершает слово «ванде» — «склоняюсь».'
+      },
+      {
+        deva: 'हं',
+        translit: 'haṁ',
+        example: '’हं (aham)',
+        meaning: '«хам» — «я» (сокращённая форма अहम्)',
+        hint: 'После «ванде» слово «ахам» теряет начальное «а» и сливается со звуком «е» — получается «ванде’хам». Анусвара даёт носовой призвук «м».'
+      },
+      {
+        deva: 'श्री',
+        translit: 'śrī',
+        example: 'श्री-गुरोः (śrī-guroḥ)',
+        meaning: 'почтительная приставка «шри»',
+        hint: '«श्» (голая «ш») + «री» (долгое «ри»). Такая же уважительная приставка, как в श्री-गुरवे и других молитвах.'
+      },
+      {
+        deva: 'गु',
+        translit: 'gu',
+        example: 'गुरोः (guroḥ)',
+        meaning: '«гу»',
+        hint: 'Звонкий «г» с коротким «у», начинает слово «гурох» — «учителя».'
+      },
+      {
+        deva: 'रोः',
+        translit: 'roḥ',
+        example: 'गुरोः (guroḥ)',
+        meaning: '«рох» с висаргой',
+        hint: 'Висарга (две точки после буквы) добавляет лёгкий выдох «х» в конце: «рох».'
+      },
+      {
+        deva: 'श्री',
+        translit: 'śrī',
+        example: 'श्री-युत-पद-कमलं (śrī-yuta-pada-kamalam)',
+        meaning: 'почтительная приставка «шри»',
+        hint: 'Та же приставка «шри», теперь перед словом «йута-пада-камалам» — «благословенные лотосные стопы».'
+      },
+      {
+        deva: 'यु',
+        translit: 'yu',
+        example: 'युत (yuta)',
+        meaning: '«ю»',
+        hint: '«य» + «ु» = короткое «ю».'
+      },
+      {
+        deva: 'त',
+        translit: 'ta',
+        example: 'युत (yuta)',
+        meaning: '«та»',
+        hint: 'Обычный зубной «т», завершает слово «йута» — «наделённый, украшенный».'
+      },
+      {
+        deva: 'प',
+        translit: 'pa',
+        example: 'पद (pada)',
+        meaning: '«па»',
+        hint: 'Обычный «п» со стандартным «а», начинает слово «пада» — «стопы».'
+      },
+      {
+        deva: 'द',
+        translit: 'da',
+        example: 'पद (pada)',
+        meaning: '«да»',
+        hint: 'Звонкий «д», завершает слово «пада» — знакомое слово из многих молитв.'
+      },
+      {
+        deva: 'क',
+        translit: 'ka',
+        example: 'कमलं (kamalam)',
+        meaning: '«ка»',
+        hint: 'Твёрдый «к», начинает слово «камалам» — «лотос».'
+      },
+      {
+        deva: 'म',
+        translit: 'ma',
+        example: 'कमलं (kamalam)',
+        meaning: '«ма»',
+        hint: 'Обычный «м» со стандартным «а».'
+      },
+      {
+        deva: 'लं',
+        translit: 'laṁ',
+        example: 'कमलं (kamalam)',
+        meaning: '«лам» с анусварой',
+        hint: 'Точка сверху добавляет носовой призвук: «лам». Завершает слово «камалам» — «подобные лотосу».'
+      },
+      {
+        deva: 'श्री',
+        translit: 'śrī',
+        example: 'श्री-गुरून् (śrī-gurūn)',
+        meaning: 'почтительная приставка «шри»',
+        hint: 'И снова «шри» — теперь перед словом «гурун», множественным числом «учителя».'
+      },
+      {
+        deva: 'गु',
+        translit: 'gu',
+        example: 'गुरून् (gurūn)',
+        meaning: '«гу»',
+        hint: 'Тот же слог, что и в गुरोः.'
+      },
+      {
+        deva: 'रून्',
+        translit: 'rūn',
+        example: 'गुरून् (gurūn)',
+        meaning: '«рун» с вирамой',
+        hint: 'Долгое «ру» плюс «न्» (голая «н», вирама убирает «а»). Множественное число: «учителя парампары».'
+      },
+      {
+        deva: 'वै',
+        translit: 'vai',
+        example: 'वैष्णवांश् (vaiṣṇavāṁś)',
+        meaning: 'дифтонг «вай»',
+        hint: '«व» + гласный «ै» (ai) дают дифтонг «вай», начинает слово «вайшнавамш» — «вайшнавы».'
+      },
+      {
+        deva: 'ष्ण',
+        translit: 'ṣṇa',
+        example: 'वैष्णवांश् (vaiṣṇavāṁś)',
+        meaning: 'конъюнкт «шна»',
+        hint: '«ष» (церебральное «ш») + «ण» (церебральное «н») сливаются в плотный кластер «шна».'
+      },
+      {
+        deva: 'वां',
+        translit: 'vāṁ',
+        example: 'वैष्णवांश् (vaiṣṇavāṁś)',
+        meaning: 'долгое «вам» с анусварой',
+        hint: '«व» + долгое «ा» + анусвара = «вам» с носовым призвуком.'
+      },
+      {
+        deva: 'श्',
+        translit: 'ś',
+        example: 'वैष्णवांश् (vaiṣṇavāṁś)',
+        meaning: 'голая «ш»',
+        hint: 'Вирама убирает «а» — окончание множественного числа, слитое со следующим словом «ча».'
+      },
+      {
+        deva: 'च',
+        translit: 'ca',
+        example: 'च (ca)',
+        meaning: '«ча» — «и»',
+        hint: 'Короткое соединительное слово «и», связывает поклон гуру со всеми вайшнавами в единый жест.'
+      },
+      {
+        deva: 'श्री',
+        translit: 'śrī',
+        example: 'श्री-रूपं (śrī-rūpam)',
+        meaning: 'почтительная приставка «шри»',
+        hint: 'Начинается вторая строка — «шри» перед именем Шрилы Рупы Госвами.'
+      },
+      {
+        deva: 'रू',
+        translit: 'rū',
+        example: 'रूपं (rūpam)',
+        meaning: 'долгое «ру»',
+        hint: '«र» + знак «ू» = долгое «ру», как в имени «Рупа».'
+      },
+      {
+        deva: 'पं',
+        translit: 'paṁ',
+        example: 'रूपं (rūpam)',
+        meaning: '«пам» с анусварой',
+        hint: 'Точка сверху даёт носовой призвук: «пам». Завершает имя «Рупам» — винительный падеж имени Рупа Госвами.'
+      },
+      {
+        deva: 'सा',
+        translit: 'sā',
+        example: 'साग्रजातं (sāgrajātam)',
+        meaning: 'долгое «са»',
+        hint: '«स» + долгое «ा» = «са-а», начинает слово «саграджатам» — «вместе со старшим братом».'
+      },
+      {
+        deva: 'ग्र',
+        translit: 'gra',
+        example: 'साग्रजातं (sāgrajātam)',
+        meaning: 'конъюнкт «гра»',
+        hint: '«ग» + «र» сливаются без гласного между ними в «гра».'
+      },
+      {
+        deva: 'जा',
+        translit: 'jā',
+        example: 'साग्रजातं (sāgrajātam)',
+        meaning: 'долгое «джа»',
+        hint: '«ज» + долгое «ा» = долгое «джа».'
+      },
+      {
+        deva: 'तं',
+        translit: 'taṁ',
+        example: 'साग्रजातं (sāgrajātam)',
+        meaning: '«там» с анусварой',
+        hint: 'Точка сверху даёт носовой призвук. Завершает слово, указывающее на Санатану Госвами, старшего брата Рупы.'
+      },
+      {
+        deva: 'स',
+        translit: 'sa',
+        example: 'सह-गण (saha-gaṇa)',
+        meaning: '«са»',
+        hint: 'Начинает слово «саха» — «вместе с».'
+      },
+      {
+        deva: 'ह',
+        translit: 'ha',
+        example: 'सह-गण (saha-gaṇa)',
+        meaning: '«ха»',
+        hint: 'Лёгкий выдох, завершает слово «саха» — «вместе с».'
+      },
+      {
+        deva: 'ग',
+        translit: 'ga',
+        example: 'सह-गण (saha-gaṇa)',
+        meaning: '«га»',
+        hint: 'Звонкий «г», начинает слово «гана» — «спутники, группа».'
+      },
+      {
+        deva: 'ण',
+        translit: 'ṇa',
+        example: 'सह-गण (saha-gaṇa)',
+        meaning: 'церебральное «на»',
+        hint: 'Церебральный «ण» (язык загнут назад), завершает слово «гана» — «спутники».'
+      },
+      {
+        deva: 'र',
+        translit: 'ra',
+        example: 'रघुनाथान्वितं (raghunāthānvitam)',
+        meaning: '«ра»',
+        hint: 'Мягкое короткое «ра», начинает имя «Рагхунатха».'
+      },
+      {
+        deva: 'घु',
+        translit: 'ghu',
+        example: 'रघुनाथान्वितं (raghunāthānvitam)',
+        meaning: 'придыхательное «гху»',
+        hint: '«घ» — звонкий «г» с лёгким выдохом, плюс краткое «у».'
+      },
+      {
+        deva: 'ना',
+        translit: 'nā',
+        example: 'रघुनाथान्वितं (raghunāthānvitam)',
+        meaning: 'долгое «на»',
+        hint: '«न» + долгое «ा» = «на-а».'
+      },
+      {
+        deva: 'था',
+        translit: 'thā',
+        example: 'रघुनाथान्वितं (raghunāthānvitam)',
+        meaning: 'придыхательное «тха»',
+        hint: '«थ» — «т» с лёгким выдохом, плюс долгое «а». Вместе — имя «Натха», «защитник».'
+      },
+      {
+        deva: 'न्वि',
+        translit: 'nvi',
+        example: 'रघुनाथान्वितं (raghunāthānvitam)',
+        meaning: 'конъюнкт «нви»',
+        hint: '«न» + «व» + «ि» сливаются в «нви» — часть слова «анвитам», «сопровождаемый».'
+      },
+      {
+        deva: 'तं',
+        translit: 'taṁ',
+        example: 'रघुनाथान्वितं (raghunāthānvitam)',
+        meaning: '«там» с анусварой',
+        hint: 'Завершает длинное слово «рагхунатханвитам» — «вместе с Рагхунатхой дасом Госвами».'
+      },
+      {
+        deva: 'तं',
+        translit: 'taṁ',
+        example: 'तं (tam)',
+        meaning: '«там» — «ему»',
+        hint: 'Отдельное короткое слово-указание: «ему», «тому самому».'
+      },
+      {
+        deva: 'स',
+        translit: 'sa',
+        example: 'स-जीवम् (sa-jīvam)',
+        meaning: '«са» — «вместе с»',
+        hint: 'Короткая приставка «вместе с», перед именем Дживы Госвами.'
+      },
+      {
+        deva: 'जी',
+        translit: 'jī',
+        example: 'स-जीवम् (sa-jīvam)',
+        meaning: 'долгое «джи»',
+        hint: '«ज» + знак «ी» = долгое «джи», начинает имя «Джива» — «живая душа, жизнь».'
+      },
+      {
+        deva: 'वम्',
+        translit: 'vam',
+        example: 'स-जीवम् (sa-jīvam)',
+        meaning: '«вам» с вирамой',
+        hint: '«व» + «म्» (вирама убирает «а») завершает имя «Дживам» — винительный падеж имени Джива Госвами.'
+      },
+      {
+        deva: 'सा',
+        translit: 'sā',
+        example: 'साद्वैतं (sādvaitam)',
+        meaning: 'долгое «са»',
+        hint: 'Начинает слово «садваитам» — «вместе с Адвайтой Ачарьей».'
+      },
+      {
+        deva: 'द्वै',
+        translit: 'dvai',
+        example: 'साद्वैतं (sādvaitam)',
+        meaning: 'конъюнкт «двай»',
+        hint: '«द» + «व» + дифтонг «ai» сливаются в «двай» — часть имени «Адвайта», «недвойственный».'
+      },
+      {
+        deva: 'तं',
+        translit: 'taṁ',
+        example: 'साद्वैतं (sādvaitam)',
+        meaning: '«там» с анусварой',
+        hint: 'Завершает слово «садваитам».'
+      },
+      {
+        deva: 'सा',
+        translit: 'sā',
+        example: 'सावधूतं (sāvadhūtam)',
+        meaning: 'долгое «са»',
+        hint: 'Начинает слово «савадхутам» — «вместе с Нитьянандой Прабху».'
+      },
+      {
+        deva: 'व',
+        translit: 'va',
+        example: 'सावधूतं (sāvadhūtam)',
+        meaning: '«ва»',
+        hint: 'Обычное мягкое «ва».'
+      },
+      {
+        deva: 'धू',
+        translit: 'dhū',
+        example: 'सावधूतं (sāvadhūtam)',
+        meaning: 'придыхательное долгое «дху»',
+        hint: '«ध» — «д» с лёгким выдохом, плюс долгое «у». «Авадхута» — «безумец любви», не связанный условностями.'
+      },
+      {
+        deva: 'तं',
+        translit: 'taṁ',
+        example: 'सावधूतं (sāvadhūtam)',
+        meaning: '«там» с анусварой',
+        hint: 'Завершает слово «савадхутам».'
+      },
+      {
+        deva: 'प',
+        translit: 'pa',
+        example: 'परिजन (parijana)',
+        meaning: '«па»',
+        hint: 'Начинает слово «париджана» — «близкие, домочадцы».'
+      },
+      {
+        deva: 'रि',
+        translit: 'ri',
+        example: 'परिजन (parijana)',
+        meaning: '«ри»',
+        hint: '«र» + «ि» = короткое «ри».'
+      },
+      {
+        deva: 'ज',
+        translit: 'ja',
+        example: 'परिजन (parijana)',
+        meaning: '«джа»',
+        hint: 'Звонкий мягкий «дж».'
+      },
+      {
+        deva: 'न',
+        translit: 'na',
+        example: 'परिजन (parijana)',
+        meaning: '«на»',
+        hint: 'Завершает слово «париджана» — «близкие», такие как Шриваса Тхакур.'
+      },
+      {
+        deva: 'स',
+        translit: 'sa',
+        example: 'सहितं (sahitam)',
+        meaning: '«са»',
+        hint: 'Начинает слово «сахитам» — «вместе с».'
+      },
+      {
+        deva: 'हि',
+        translit: 'hi',
+        example: 'सहितं (sahitam)',
+        meaning: '«хи»',
+        hint: 'Лёгкий выдох с коротким «и».'
+      },
+      {
+        deva: 'तं',
+        translit: 'taṁ',
+        example: 'सहितं (sahitam)',
+        meaning: '«там» с анусварой',
+        hint: 'Завершает слово «сахитам» — «вместе с».'
+      },
+      {
+        deva: 'कृ',
+        translit: 'kṛ',
+        example: 'कृष्ण (kṛṣṇa)',
+        meaning: 'слог с ретрофлексным гласным «кри»',
+        hint: '«क» + особый гласный знак «ृ» (ṛ) дают «кри» — необычный для русского слуха звук.'
+      },
+      {
+        deva: 'ष्ण',
+        translit: 'ṣṇa',
+        example: 'कृष्ण (kṛṣṇa)',
+        meaning: 'конъюнкт «шна»',
+        hint: '«ष» + «ण» сливаются в плотный кластер «шна», завершают имя «Кришна».'
+      },
+      {
+        deva: 'चै',
+        translit: 'cai',
+        example: 'चैतन्य (caitanya)',
+        meaning: 'дифтонг «чай»',
+        hint: '«च» + «ै» (ai) дают «чай», начинает имя «Чайтанья».'
+      },
+      {
+        deva: 'त',
+        translit: 'ta',
+        example: 'चैतन्य (caitanya)',
+        meaning: '«та»',
+        hint: 'Обычный зубной «т».'
+      },
+      {
+        deva: 'न्य',
+        translit: 'nya',
+        example: 'चैतन्य (caitanya)',
+        meaning: 'конъюнкт «нья»',
+        hint: '«न» + вирама + «य» сливаются в мягкое «нья», завершают имя «Чайтанья».'
+      },
+      {
+        deva: 'दे',
+        translit: 'de',
+        example: 'देवं (devam)',
+        meaning: '«де»',
+        hint: '«द» + «े» = долгое «де», начинает слово «девам» — «Господу».'
+      },
+      {
+        deva: 'वं',
+        translit: 'vaṁ',
+        example: 'देवं (devam)',
+        meaning: '«вам» с анусварой',
+        hint: 'Завершает слово «девам» — «Господу Шри Кришне Чайтанье».'
+      },
+      {
+        deva: 'श्री',
+        translit: 'śrī',
+        example: 'श्री-राधा-कृष्ण-पादान् (śrī-rādhā-kṛṣṇa-pādān)',
+        meaning: 'почтительная приставка «шри»',
+        hint: 'Начинается последняя, четвёртая строка — поклон лотосным стопам Радхи и Кришны.'
+      },
+      {
+        deva: 'रा',
+        translit: 'rā',
+        example: 'राधा (rādhā)',
+        meaning: 'долгое «ра»',
+        hint: '«र» + долгое «ा» = «ра-а», начинает имя «Радха».'
+      },
+      {
+        deva: 'धा',
+        translit: 'dhā',
+        example: 'राधा (rādhā)',
+        meaning: 'придыхательное долгое «дха»',
+        hint: '«ध» — «д» с лёгким выдохом, плюс долгое «а». Завершает имя «Радха».'
+      },
+      {
+        deva: 'कृ',
+        translit: 'kṛ',
+        example: 'कृष्ण (kṛṣṇa)',
+        meaning: 'слог «кри»',
+        hint: 'Тот же особый гласный «ृ», что и раньше в имени «Кришна».'
+      },
+      {
+        deva: 'ष्ण',
+        translit: 'ṣṇa',
+        example: 'कृष्ण (kṛṣṇa)',
+        meaning: 'конъюнкт «шна»',
+        hint: 'Завершает имя «Кришна».'
+      },
+      {
+        deva: 'पा',
+        translit: 'pā',
+        example: 'पादान् (pādān)',
+        meaning: 'долгое «па»',
+        hint: '«प» + долгое «ा» = «па-а», начинает слово «падан» — «стопам» (мн. число).'
+      },
+      {
+        deva: 'दान्',
+        translit: 'dān',
+        example: 'पादान् (pādān)',
+        meaning: '«дан» с вирамой',
+        hint: '«द» + долгое «ा» + «न्» (вирама убирает «а») завершают слово «падан» — «лотосным стопам».'
+      },
+      {
+        deva: 'स',
+        translit: 'sa',
+        example: 'सह-गण (saha-gaṇa)',
+        meaning: '«са»',
+        hint: 'Снова слово «саха» — «вместе с», теперь перед гопи Радхи и Кришны.'
+      },
+      {
+        deva: 'ह',
+        translit: 'ha',
+        example: 'सह-गण (saha-gaṇa)',
+        meaning: '«ха»',
+        hint: 'Завершает слово «саха».'
+      },
+      {
+        deva: 'ग',
+        translit: 'ga',
+        example: 'सह-गण (saha-gaṇa)',
+        meaning: '«га»',
+        hint: 'Начинает слово «гана» — «спутники».'
+      },
+      {
+        deva: 'ण',
+        translit: 'ṇa',
+        example: 'सह-गण (saha-gaṇa)',
+        meaning: 'церебральное «на»',
+        hint: 'Завершает слово «гана» — здесь: гопи, спутницы Радхи и Кришны.'
+      },
+      {
+        deva: 'ल',
+        translit: 'la',
+        example: 'ललिता (lalitā)',
+        meaning: 'мягкое «ла»',
+        hint: 'Начинает имя «Лалита», ближайшую подругу Радхарани.'
+      },
+      {
+        deva: 'लि',
+        translit: 'li',
+        example: 'ललिता (lalitā)',
+        meaning: '«ли»',
+        hint: '«ल» + «ि» = короткое «ли».'
+      },
+      {
+        deva: 'ता',
+        translit: 'tā',
+        example: 'ललिता (lalitā)',
+        meaning: 'долгое «та»',
+        hint: 'Завершает имя «Лалита» долгим «а».'
+      },
+      {
+        deva: 'श्री',
+        translit: 'śrī',
+        example: 'श्री-विशाखा (śrī-viśākhā)',
+        meaning: 'почтительная приставка «шри»',
+        hint: 'И снова «шри» — перед именем Вишакхи, второй ближайшей подруги.'
+      },
+      {
+        deva: 'वि',
+        translit: 'vi',
+        example: 'विशाखा (viśākhā)',
+        meaning: '«ви»',
+        hint: '«व» + «ि» = короткое «ви», начинает имя «Вишакха».'
+      },
+      {
+        deva: 'शा',
+        translit: 'śā',
+        example: 'विशाखा (viśākhā)',
+        meaning: 'долгое «ша»',
+        hint: 'Мягкий нёбный «ш» с долгим «а».'
+      },
+      {
+        deva: 'खा',
+        translit: 'khā',
+        example: 'विशाखा (viśākhā)',
+        meaning: 'придыхательное долгое «кха»',
+        hint: '«ख» — «к» с лёгким выдохом, плюс долгое «а». Завершает имя «Вишакха».'
+      },
+      {
+        deva: 'अ',
+        translit: 'a',
+        example: 'अन्वितांश् (anvitāṁś)',
+        meaning: 'короткое «а»',
+        hint: 'Начинает слово «анвитамш» — «сопровождаемых».'
+      },
+      {
+        deva: 'न्वि',
+        translit: 'nvi',
+        example: 'अन्वितांश् (anvitāṁś)',
+        meaning: 'конъюнкт «нви»',
+        hint: '«न» + «व» + «ि» сливаются в «нви», как и в रघुनाथान्वितं выше.'
+      },
+      {
+        deva: 'तां',
+        translit: 'tāṁ',
+        example: 'अन्वितांश् (anvitāṁś)',
+        meaning: 'долгое «там» с анусварой',
+        hint: '«त» + долгое «ा» + анусвара = «там» с носовым призвуком.'
+      },
+      {
+        deva: 'श्',
+        translit: 'ś',
+        example: 'अन्वितांश् (anvitāṁś)',
+        meaning: 'голая «ш»',
+        hint: 'Вирама убирает «а» — окончание множественного числа, сливается со следующим словом «ча».'
+      },
+      {
+        deva: 'च',
+        translit: 'ca',
+        example: 'च (ca)',
+        meaning: '«ча» — «и» (финальное)',
+        hint: 'Последнее соединительное «и» в этой молитве: оно закрывает круг поклона всем участникам лилы.'
+      }
+    ];
+
+    const btn = document.getElementById('showBtn');
+    const card = document.getElementById('card');
+    const letterDeva = document.getElementById('letterDeva');
+    const letterTranslit = document.getElementById('letterTranslit');
+    const exampleWord = document.getElementById('exampleWord');
+    const meaningSmall = document.getElementById('meaningSmall');
+    const hintText = document.getElementById('hintText');
+
+    let currentIndex = 0;
+
+    btn.addEventListener('click', () => {
+      if (currentIndex >= syllables.length) {
+        currentIndex = 0;
+        alert('Прошли все слоги! Можно начать заново.');
+      }
+      const s = syllables[currentIndex];
+
+      letterDeva.textContent = s.deva;
+      letterTranslit.textContent = s.translit;
+      exampleWord.textContent = s.example;
+      meaningSmall.textContent = s.meaning;
+      hintText.textContent = s.hint;
+
+      card.style.display = 'block';
+      btn.textContent = 'Ещё один слог';
+      currentIndex++;
+
+      document.getElementById('debugInfo').textContent =
+        'Слог ' + currentIndex + ' из ' + syllables.length;
+    });
+  </script>
+</body>
+</html>
