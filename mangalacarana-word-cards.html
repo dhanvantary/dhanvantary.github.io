@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мангалачарана: слово дня</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdfbf7;
+      color: #222;
+      padding: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .full-verse {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .full-verse .line {
+      font-style: italic;
+      color: #1e3a8a;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .translation-block {
+      background: white;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+    .translation-block .tr-ru {
+      color: #333;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .translation-block .tr-en {
+      color: #555;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .lotus-icon {
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 0.5rem;
+    }
+    .divider {
+      display: block;
+      width: 100%;
+      max-width: 350px;
+      margin: 1.5rem auto;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-top: 24px;
+      display: none;
+    }
+    .sanskrit {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1e3a8a;
+      text-align: center;
+      margin: 8px 0;
+    }
+    .translit {
+      display: block;
+      color: #475569;
+      margin: 6px 0 12px 0;
+      text-align: center;
+      font-style: italic;
+    }
+    .meaning-row {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .meaning-ru {
+      font-weight: bold;
+      display: block;
+    }
+    .meaning-en {
+      color: #777;
+      font-style: italic;
+      font-size: 14px;
+      display: block;
+    }
+    .mnemonic {
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+      margin-top: 12px;
+    }
+    .mnemonic .mn-ru {
+      margin-bottom: 6px;
+    }
+    .mnemonic .mn-en {
+      font-style: italic;
+      color: #6b5200;
+    }
+    button {
+      width: 100%;
+      padding: 18px;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    button:hover {
+      background: #254a9e;
+    }
+    .debug {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <img src="lotus.svg" alt="" class="lotus-icon">
+  <h1>Мангалачарана</h1>
+  <p class="subtitle">Карточки слов</p>
+
+  <div class="full-verse">
+    <div class="line">ванде ’хам шри-гурох шри-йута-пада-камалам шри-гурун ваишнавамш ча</div>
+    <div class="line">шри-рупам саграджатам саха-гана-рагхунатханвитам там са-дживам</div>
+    <div class="line">садваитам савадхутам париджана-сахитам кришна-чаитанйа-девам</div>
+    <div class="line">шри-радха-кришна-падан саха-гана-лалита-шри-вишакханвитамш ча</div>
+  </div>
+
+  <div class="translation-block">
+    <div class="tr-ru">«Я смиренно склоняюсь к лотосным стопам моего духовного учителя и всех других наставников на пути преданного служения. Я в почтении склоняюсь перед всеми вайшнавами и перед шестью Госвами — Шрилой Рупой Госвами, Шрилой Санатаной Госвами, Рагхунатхой дасом Госвами, Дживой Госвами и их спутниками. Я в почтении склоняюсь перед Шри Адвайтой Ачарьей Прабху, Шри Нитьянандой Прабху, Шри Чайтаньей Махапрабху и всеми Его последователями во главе со Шривасой Тхакуром. И наконец, я в почтении склоняюсь к лотосным стопам Господа Кришны, Шримати Радхарани и всех гопи во главе с Лалитой и Вишакхой».</div>
+    <div class="tr-en">"I offer my respectful obeisances unto the lotus feet of my spiritual master and of all the other preceptors on the path of devotional service, unto all the Vaiṣṇavas and unto the six Gosvāmīs, including Śrīla Rūpa Gosvāmī, Śrīla Sanātana Gosvāmī, Raghunātha dāsa Gosvāmī, Jīva Gosvāmī and their associates. I offer my respectful obeisances unto Śrī Advaita Ācārya Prabhu, Śrī Nityānanda Prabhu and Śrī Caitanya Mahāprabhu, as well as all His devotees, headed by Śrīvāsa Ṭhākura. I then offer my respectful obeisances unto the lotus feet of Lord Kṛṣṇa and Śrīmatī Rādhārāṇī and all the gopīs, headed by Lalitā and Viśākhā."</div>
+  </div>
+
+  <img src="divider.svg" alt="" class="divider">
+
+  <audio src="vandeham sri guroh.mp3" controls style="width: 100%; margin-bottom: 20px;"></audio>
+
+  <button id="showBtn">Следующее слово</button>
+
+  <div class="card" id="wordCard">
+    <div class="sanskrit" id="sanskritWord"></div>
+    <span class="translit" id="translitWord"></span>
+    <div class="meaning-row">
+      <span class="meaning-ru" id="meaningRu"></span>
+      <span class="meaning-en" id="meaningEn"></span>
+    </div>
+    <div class="mnemonic" id="mnemonicBlock" style="display:none;">
+      <div class="mn-ru" id="mnemonicRu"></div>
+      <div class="mn-en" id="mnemonicEn"></div>
+    </div>
+  </div>
+
+  <div class="debug" id="debugInfo"></div>
+
+  <script>
+    const words = [
+      {
+        sanskrit: 'वन्दे',
+        translit: 'ванде',
+        meaningRu: 'в почтении склоняюсь',
+        meaningEn: 'offer my respectful obeisances',
+        mnemonicRu: 'Это жест, который начинается не с рук, а с сердца: ты склоняешь голову и признаёшь — перед тобой что-то большее.',
+        mnemonicEn: 'The gesture that starts not with hands but with the heart: you lower your head and acknowledge something greater before you.'
+      },
+      {
+        sanskrit: '’हं',
+        translit: 'ахам',
+        meaningRu: 'я',
+        meaningEn: 'I',
+        mnemonicRu: 'Тихое «я» — не эго, которое кричит, а простое признание: «это делаю я, лично, без посредников».',
+        mnemonicEn: 'The quiet \'I\' — not the ego that shouts, but a simple admission: \'this is me, doing it, personally, without a middleman.\''
+      },
+      {
+        sanskrit: 'श्री-गुरोः',
+        translit: 'шри-гурох',
+        meaningRu: 'моего духовного учителя',
+        meaningEn: 'of my spiritual master',
+        mnemonicRu: 'В этом звуке — опора: тот, кто держит линию традиции и не даёт тебе потеряться в темноте.',
+        mnemonicEn: 'The sound of support: the one who holds the line of tradition steady so you don\'t get lost in the dark.'
+      },
+      {
+        sanskrit: 'श्री-युत-पद-कमलं',
+        translit: 'шри-йута-пада-камалам',
+        meaningRu: 'к благословенным лотосным стопам',
+        meaningEn: 'unto the opulent lotus feet',
+        mnemonicRu: 'Лотосные стопы, к которым приклоняешься не от обязанности, а от теплоты: «йута» — со всем великолепием, «пада» — стопы, «камалам» — лотос, мягкий и чистый.',
+        mnemonicEn: 'Lotus feet you bow to not from duty but from warmth: \'yuta\' — with all opulence, \'pada\' — feet, \'kamalam\' — lotus, soft and pure.'
+      },
+      {
+        sanskrit: 'श्री-गुरून्',
+        translit: 'шри-гурун',
+        meaningRu: 'духовным учителям в системе парампары',
+        meaningEn: 'unto the spiritual masters in the paramparā system',
+        mnemonicRu: 'Это не один учитель, а целая линия: представляй длинную цепь огней, где каждый передаёт свет следующему.',
+        mnemonicEn: 'Not one teacher but a whole line: picture a long chain of lights, each one passing the flame to the next.'
+      },
+      {
+        sanskrit: 'वैष्णवांश्',
+        translit: 'ваишнавамш',
+        meaningRu: 'всем вайшнавам',
+        meaningEn: 'unto all the Vaiṣṇavas',
+        mnemonicRu: 'Не конкретные люди, а все, кто идёт этим путём: ты кланяешься не лицам, а самому духу преданности, который живёт в них.',
+        mnemonicEn: 'Not specific people but all who walk this path: you bow not to faces but to the very spirit of devotion that lives in them.'
+      },
+      {
+        sanskrit: 'च',
+        translit: 'ча',
+        meaningRu: 'также',
+        meaningEn: 'also',
+        mnemonicRu: 'Крошечное «и», которое не даёт поклону быть одиночным: оно связывает гуру со всеми вайшнавами в один жест.',
+        mnemonicEn: 'The tiny \'and\' that keeps the bow from being lonely: it links the guru to all the Vaiṣṇavas in a single gesture.'
+      },
+      {
+        sanskrit: 'श्री-रूपं',
+        translit: 'шри-рупам',
+        meaningRu: 'Шриле Рупе Госвами',
+        meaningEn: 'unto Śrīla Rūpa Gosvāmī',
+        mnemonicRu: 'Имя, которое звучит как форма: «рупа» — образ, и этот образ ты узнаёшь сразу, без сомнений.',
+        mnemonicEn: 'A name that sounds like a form: \'rūpa\' — the image, and you recognise it at once, without hesitation.'
+      },
+      {
+        sanskrit: 'साग्रजातं',
+        translit: 'саграджатам',
+        meaningRu: 'вместе с его старшим братом, Санатаной Госвами',
+        meaningEn: 'together with his elder brother, Sanātana Gosvāmī',
+        mnemonicRu: 'Старший брат рядом: не один Рупа, а Рупа и Санатана, как два корня одного дерева.',
+        mnemonicEn: 'The elder brother stands nearby: not Rūpa alone but Rūpa and Sanātana, like two roots of one tree.'
+      },
+      {
+        sanskrit: 'सह-गण',
+        translit: 'саха-гана',
+        meaningRu: 'вместе со спутниками',
+        meaningEn: 'together with associates',
+        mnemonicRu: 'Не один, а со спутниками: представляй группу, где каждый держит друг друга, и никто не одинок.',
+        mnemonicEn: 'Not alone, but with companions: picture a group where each holds the other, and no one is left behind.'
+      },
+      {
+        sanskrit: 'रघुनाथान्वितं',
+        translit: 'рагхунатханвитам',
+        meaningRu: 'с Рагхунатхой дасом Госвами',
+        meaningEn: 'with Raghunātha dāsa Gosvāmī',
+        mnemonicRu: 'Рагхунатха дас Госвами — тот, кто отрёкся от всего ради одного: в этом слове — глубина его решения.',
+        mnemonicEn: 'Raghunātha dāsa Gosvāmī — the one who renounced everything for one thing: in this word lives the depth of his resolve.'
+      },
+      {
+        sanskrit: 'तं',
+        translit: 'там',
+        meaningRu: 'ему',
+        meaningEn: 'unto him',
+        mnemonicRu: 'Маленькое указание: «ему», «тому самому» — слово-палец, которое направляет взгляд.',
+        mnemonicEn: 'A tiny pointer: \'unto him, that very one\' — a finger-word that directs the gaze.'
+      },
+      {
+        sanskrit: 'स-जीवम्',
+        translit: 'са-дживам',
+        meaningRu: 'вместе с Дживой Госвами',
+        meaningEn: 'together with Jīva Gosvāmī',
+        mnemonicRu: 'Джива Госвами — мыслитель, который всё записал и сохранил: «са-дживам» — с тем, кто держит знание в руках.',
+        mnemonicEn: 'Jīva Gosvāmī — the thinker who wrote it all down and kept it alive: \'sa-jīvam\' — with the one who holds knowledge in his hands.'
+      },
+      {
+        sanskrit: 'साद्वैतं',
+        translit: 'садваитам',
+        meaningRu: 'с Адвайтой Ачарьей',
+        meaningEn: 'with Advaita Ācārya',
+        mnemonicRu: 'Адвайта Ачарья — тот, кто соединил два мира: «садваитам» — «с тем, кто не видит двойственности».',
+        mnemonicEn: 'Advaita Ācārya — the one who joined two worlds: \'sādvaitam\' — with him who sees no duality.'
+      },
+      {
+        sanskrit: 'सावधूतं',
+        translit: 'савадхутам',
+        meaningRu: 'с Нитьянандой Прабху',
+        meaningEn: 'with Nityānanda Prabhu',
+        mnemonicRu: 'Нитьянанда — безумец любви: «савадхутам» — с тем, кто танцует, забыв о правилах.',
+        mnemonicEn: 'Nityānanda — the madman of love: \'sāvadhūtam\' — with him who dances, forgetting every rule.'
+      },
+      {
+        sanskrit: 'परिजन-सहितं',
+        translit: 'париджана-сахитам',
+        meaningRu: 'со Шривасой Тхакуром',
+        meaningEn: 'with Śrīvāsa Ṭhākura',
+        mnemonicRu: 'Шриваса Тхакур и его дом — место, где всё началось: «париджана» — близкие, те, кто был рядом с самого начала.',
+        mnemonicEn: 'Śrīvāsa Ṭhākura and his home — the place where it all began: \'parijana\' — the close ones, those who were there from the very start.'
+      },
+      {
+        sanskrit: 'कृष्ण-चैतन्य-देवं',
+        translit: 'кришна-чаитанйа-девам',
+        meaningRu: 'Господу Шри Чайтанье Махапрабху',
+        meaningEn: 'unto Lord Śrī Caitanya Mahāprabhu',
+        mnemonicRu: 'Чайтанья — золотое сердце: «кришна» и «чаитанйа» в одном слове, как будто два света слились в один.',
+        mnemonicEn: 'Caitanya — the golden heart: \'kṛṣṇa\' and \'caitanya\' fused in one word, as if two lights merged into one.'
+      },
+      {
+        sanskrit: 'श्री-राधा-कृष्ण-पादान्',
+        translit: 'шри-радха-кришна-падан',
+        meaningRu: 'лотосным стопам Шри Кришны и Радхарани',
+        meaningEn: 'unto the lotus feet of Śrī Kṛṣṇa and Rādhārāṇī',
+        mnemonicRu: 'Лотосные стопы Радхи и Кришны — последняя точка поклона: здесь нет слов, только тишина перед двумя.',
+        mnemonicEn: 'The lotus feet of Rādhā and Kṛṣṇa — the final point of the bow: here there are no words, only stillness before the Two.'
+      },
+      {
+        sanskrit: 'सह-गण',
+        translit: 'саха-гана',
+        meaningRu: 'вместе со спутниками',
+        meaningEn: 'together with associates',
+        mnemonicRu: 'Снова «со спутниками»: Радха и Кришна никогда не одни, вокруг них — те, кто любит.',
+        mnemonicEn: 'Again \'with companions\': Rādhā and Kṛṣṇa are never alone — around them are those who love.'
+      },
+      {
+        sanskrit: 'ललिता-श्री-विशाखान्वितांश्',
+        translit: 'лалита-шри-вишакханвитамш',
+        meaningRu: 'сопровождаемых Шри Лалитой и Шри Вишакхой',
+        meaningEn: 'accompanied by Śrī Lalitā and Śrī Viśākhā',
+        mnemonicRu: 'Лалита и Вишакха — ближайшие подруги: они первыми приходят, когда нужно служить, и последними уходят.',
+        mnemonicEn: 'Lalitā and Viśākhā — the closest friends: they arrive first when service is needed and leave last.'
+      },
+      {
+        sanskrit: 'च',
+        translit: 'ча',
+        meaningRu: 'также (финальное)',
+        meaningEn: 'also (final)',
+        mnemonicRu: 'Ещё одно «и» — финальное: оно закрывает круг и говорит, что всё связано, всё едино.',
+        mnemonicEn: 'One more \'and\' — the final one: it closes the circle and says: everything is connected, all is one.'
+      }
+    ];
+
+    let currentIndex = -1;
+
+    function showNextWord() {
+      currentIndex = (currentIndex + 1) % words.length;
+      const w = words[currentIndex];
+
+      document.getElementById('sanskritWord').textContent = w.sanskrit;
+      document.getElementById('translitWord').textContent = w.translit;
+      document.getElementById('meaningRu').textContent = w.meaningRu;
+      document.getElementById('meaningEn').textContent = w.meaningEn;
+
+      const mnemonicBlock = document.getElementById('mnemonicBlock');
+      if (w.mnemonicRu || w.mnemonicEn) {
+        document.getElementById('mnemonicRu').textContent = w.mnemonicRu;
+        document.getElementById('mnemonicEn').textContent = w.mnemonicEn;
+        mnemonicBlock.style.display = 'block';
+      } else {
+        mnemonicBlock.style.display = 'none';
+      }
+
+      document.getElementById('wordCard').style.display = 'block';
+      document.getElementById('debugInfo').textContent =
+        'Слово ' + (currentIndex + 1) + ' из ' + words.length;
+    }
+
+    document.getElementById('showBtn').addEventListener('click', showNextWord);
+  </script>
+</body>
+</html>
