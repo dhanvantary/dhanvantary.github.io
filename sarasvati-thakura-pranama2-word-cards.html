@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вторая пранама-мантра Шриле Бхактисиддханте Сарасвати: слово дня</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdfbf7;
+      color: #222;
+      padding: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .full-verse {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .full-verse .line {
+      font-style: italic;
+      color: #1e3a8a;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .translation-block {
+      background: white;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+    .translation-block .tr-ru {
+      color: #333;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .translation-block .tr-en {
+      color: #555;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .lotus-icon {
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 0.5rem;
+    }
+    .divider {
+      display: block;
+      width: 100%;
+      max-width: 350px;
+      margin: 1.5rem auto;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      margin-top: 24px;
+      display: none;
+    }
+    .sanskrit {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1e3a8a;
+      text-align: center;
+      margin: 8px 0;
+    }
+    .translit {
+      display: block;
+      color: #475569;
+      margin: 6px 0 12px 0;
+      text-align: center;
+      font-style: italic;
+    }
+    .meaning-row {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .meaning-ru {
+      font-weight: bold;
+      display: block;
+    }
+    .meaning-en {
+      color: #777;
+      font-style: italic;
+      font-size: 14px;
+      display: block;
+    }
+    .mnemonic {
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+      margin-top: 12px;
+    }
+    .mnemonic .mn-ru {
+      margin-bottom: 6px;
+    }
+    .mnemonic .mn-en {
+      font-style: italic;
+      color: #6b5200;
+    }
+    button {
+      width: 100%;
+      padding: 18px;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    button:hover {
+      background: #254a9e;
+    }
+    .debug {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <img src="lotus.svg" alt="" class="lotus-icon">
+  <h1>Вторая пранама-мантра Шриле Бхактисиддханте Сарасвати</h1>
+  <p class="subtitle">Карточки слов</p>
+
+  <div class="full-verse">
+    <div class="line">माधुर्योज्ज्वल-प्रेमाढ्य-श्रीरूपानुग-भक्तिद</div>
+    <div class="line">श्रीगौर-करुणाशक्ति-विग्रहाय नमोऽस्तु ते ॥</div>
+    <div class="line">мадхурьйоджджвала-премадхйа-шри-рупануга-бхактид</div>
+    <div class="line">шри-гаура-каруна-шакти-виграхайа намо'сту те ॥</div>
+  </div>
+
+  <div class="translation-block">
+    <div class="tr-ru">«Я предлагаю свои почтительные поклоны Шриле Бхактисиддханте Сарасвати Тхакуру, который является олицетворением энергии милости Господа Шри Чайтаньи, дарующим преданное служение в супружеской любви, следующему по пути Шрилы Рупы Госвами».</div>
+    <div class="tr-en">"I offer my respectful obeisances unto Śrīla Bhaktisiddhānta Sarasvatī, who is the embodiment of the mercy energy of Śrī Gaurāṅga, who bestows devotional service following Śrīla Rūpa Gosvāmī, enriched with radiant conjugal love."</div>
+  </div>
+
+  <img src="divider.svg" alt="" class="divider">
+
+  <button id="showBtn">Следующее слово</button>
+
+  <div class="card" id="wordCard">
+    <div class="sanskrit" id="sanskritWord"></div>
+    <span class="translit" id="translitWord"></span>
+    <div class="meaning-row">
+      <span class="meaning-ru" id="meaningRu"></span>
+      <span class="meaning-en" id="meaningEn"></span>
+    </div>
+    <div class="mnemonic" id="mnemonicBlock" style="display:none;">
+      <div class="mn-ru" id="mnemonicRu"></div>
+      <div class="mn-en" id="mnemonicEn"></div>
+    </div>
+  </div>
+
+  <div class="debug" id="debugInfo"></div>
+
+  <script>
+    const words = [
+      {
+        sanskrit: 'माधुर्य',
+        translit: 'мадхурья',
+        meaningRu: 'супружеская любовь (мадхурья-раса)',
+        meaningEn: 'conjugal love (madhurya-rasa)',
+        mnemonicRu: '«мёд» + «хурья» — мёд самое сладкое, а супружеская любовь — самая сладкая из рас. «Мадху» на санскрите и есть мёд.',
+        mnemonicEn: '"honey" + "hurya" — honey is the sweetest, and conjugal love is the sweetest of all rasas. "Madhu" in Sanskrit is honey.'
+      },
+      {
+        sanskrit: 'उज्ज्वल',
+        translit: 'уджджвала',
+        meaningRu: 'сияющая, пылающая',
+        meaningEn: 'radiant, blazing',
+        mnemonicRu: '«уж жвала» — даже «уж» горит, пламя «жвалит». Образ: пылающий огонь.',
+        mnemonicEn: '"uzh zhvala" — even "uzh" burns, the flame "zhvalit." Image: a blazing fire.'
+      },
+      {
+        sanskrit: 'प्रेम',
+        translit: 'према',
+        meaningRu: 'любовь',
+        meaningEn: 'love',
+        mnemonicRu: 'почти «премия» — любовь как высшая награда. Или: «пре-» (очень) + «ма» (моё) — то, что глубоко моё.',
+        mnemonicEn: 'almost "premium" — love as the highest reward. Or: "pre-" (very) + "ma" (mine) — that which is deeply mine.'
+      },
+      {
+        sanskrit: 'आढ्य',
+        translit: 'адхья',
+        meaningRu: 'богатая, исполненная',
+        meaningEn: 'rich, filled',
+        mnemonicRu: '«ад» + «хья» — богатство «ад» невозможно растратить. Или: «ад-хья» → «од-хья» → «одна богатая».',
+        mnemonicEn: '"ad" + "khya" — wealth of "ad" is impossible to squander. Or: "ad-khya" → "od-khya" → "one rich."'
+      },
+      {
+        sanskrit: 'श्रीरूपानुग',
+        translit: 'шри-рупа-ануга',
+        meaningRu: 'следующий за Шрилой Рупой Госвами',
+        meaningEn: 'the follower of Srila Rupa Gosvami',
+        mnemonicRu: '«шри» — слава, «рупа» — форма (через «рупор» видна форма), «ануга» — «ану» (вслед) + «га» (идущий): идущий вслед за Рупой. «Ану» → «аналогично» — идёт аналогично, вслед за учителем.',
+        mnemonicEn: '"sri" — glory, "rupa" — form (through a "horn" you see the form), "anuga" — "anu" (following) + "ga" (going): going after Rupa. "Anu" → "analogous" — goes analogously, following the teacher.'
+      },
+      {
+        sanskrit: 'भक्तिद',
+        translit: 'бхакти-да',
+        meaningRu: 'дарующий преданное служение',
+        meaningEn: 'bestowing devotional service',
+        mnemonicRu: '«бхакти» (преданность) + «да» (дающий). Прямо: «бхакти даёт».',
+        mnemonicEn: '"bhakti" (devotion) + "da" (giving). Simply: "bhakti gives."'
+      },
+      {
+        sanskrit: 'श्रीगौर',
+        translit: 'шри-гаура',
+        meaningRu: 'Господа Шри Чайтаньи Махапрабху',
+        meaningEn: 'of Lord Sri Chaitanya Mahaprabhu',
+        mnemonicRu: '«гаура» — «золотистый». «Гау» — корова (золотая), или «Гаура» → «гора» — золотая гора, золотое тело.',
+        mnemonicEn: '"gaura" — "golden." "Gau" — cow (golden), or "Gaura" → "mountain" — golden mountain, golden body.'
+      },
+      {
+        sanskrit: 'करुणा',
+        translit: 'каруна',
+        meaningRu: 'милости',
+        meaningEn: 'of mercy',
+        mnemonicRu: '«ка» + «руна» — руна милости; «кару» → «карю о ком-то» — милость, когда заботятся.',
+        mnemonicEn: '"ka" + "runa" — rune of mercy; "karu" → "care about someone" — mercy is when one cares.'
+      },
+      {
+        sanskrit: 'शक्ति',
+        translit: 'шакти',
+        meaningRu: 'энергия',
+        meaningEn: 'energy',
+        mnemonicRu: '«шакти» → «шахта» — энергия из-под земли; «шок» + «ти» — энергия как шок, мощь.',
+        mnemonicEn: '"shakti" → "shaft" — energy from underground; "shock" + "ti" — energy as a shock, power.'
+      },
+      {
+        sanskrit: 'विग्रहाय',
+        translit: 'виграхайа',
+        meaningRu: 'олицетворённому (дательный падеж)',
+        meaningEn: 'to the embodiment (dative case)',
+        mnemonicRu: '«ви» (особо) + «граха» (захват, планета) — особый захват → форма, воплощение. «-āya» — дательный падеж (-ому). «О-ли-граха» → «олицетворение».',
+        mnemonicEn: '"vi" (especially) + "graha" (seizure, planet) — special seizure → form, embodiment. "-aya" — dative case (-to). "O-li-graha" → "personification."'
+      },
+      {
+        sanskrit: 'नमः',
+        translit: 'намах',
+        meaningRu: 'поклоны',
+        meaningEn: 'obeisances',
+        mnemonicRu: 'от «нама» (поклон), «х» (висарга) — выдох: поклон с выдохом. Перед «а» висарга → «о» → намо\'сту.',
+        mnemonicEn: 'from "nama" (bow), "h" (visarga) — exhalation: bow with an exhale. Before "a" visarga → "o" → namo\'stu.'
+      },
+      {
+        sanskrit: 'अस्तु',
+        translit: 'асту',
+        meaningRu: 'пусть будут',
+        meaningEn: 'let there be',
+        mnemonicRu: '«аст» (как «есть») + «у» → «есть у» → пусть есть. Повелительное наклонение глагола «быть».',
+        mnemonicEn: '"ast" (like "is") + "u" → "is" → let it be. Imperative mood of the verb "to be."'
+      },
+      {
+        sanskrit: 'ते',
+        translit: 'те',
+        meaningRu: 'тебе',
+        meaningEn: 'to you',
+        mnemonicRu: 'как русское «те-бе»: «те» = «те-». Короткое местоимение дательного падежа.',
+        mnemonicEn: 'like the Russian "te-be": "te" = "te-." A short dative pronoun.'
+      }
+    ];
+
+    let currentIndex = -1;
+
+    function showNextWord() {
+      currentIndex = (currentIndex + 1) % words.length;
+      const w = words[currentIndex];
+
+      document.getElementById('sanskritWord').textContent = w.sanskrit;
+      document.getElementById('translitWord').textContent = w.translit;
+      document.getElementById('meaningRu').textContent = w.meaningRu;
+      document.getElementById('meaningEn').textContent = w.meaningEn;
+
+      const mnemonicBlock = document.getElementById('mnemonicBlock');
+      if (w.mnemonicRu || w.mnemonicEn) {
+        document.getElementById('mnemonicRu').textContent = w.mnemonicRu;
+        document.getElementById('mnemonicEn').textContent = w.mnemonicEn;
+        mnemonicBlock.style.display = 'block';
+      } else {
+        mnemonicBlock.style.display = 'none';
+      }
+
+      document.getElementById('wordCard').style.display = 'block';
+      document.getElementById('debugInfo').textContent =
+        'Слово ' + (currentIndex + 1) + ' из ' + words.length;
+    }
+
+    document.getElementById('showBtn').addEventListener('click', showNextWord);
+  </script>
+</body>
+</html>
